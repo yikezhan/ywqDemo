@@ -8,13 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-public class UserService {
-
-    @Autowired
-    private UserMapper userMapper;
-    public List<User>  getAll(){
-        UserExample example = new UserExample();
-        return userMapper.selectByExample(example);
-    }
+public interface UserService {
+    public List<User> queryAll();
 }

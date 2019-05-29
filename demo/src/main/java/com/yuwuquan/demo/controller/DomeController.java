@@ -26,6 +26,7 @@ public class DomeController {
 
     @GetMapping(value = "getAll")
     public  List<User>  getAll(){
-        return userService.getAll();
+        QueryCondition queryCondition = new
+        return userService.queryAll();
     }
 }
