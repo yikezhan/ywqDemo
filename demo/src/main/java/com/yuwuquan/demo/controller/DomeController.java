@@ -2,9 +2,11 @@ package com.yuwuquan.demo.controller;
 
 import com.yuwuquan.demo.orm.model.User;
 import com.yuwuquan.demo.service.UserService;
+import com.yuwuquan.demo.util.RedisUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,7 +37,7 @@ public class DomeController {
      */
     @GetMapping(value = "getAll")
     public  List<User>  getAll(){
-        QueryCondition queryCondition = new
+//        QueryCondition queryCondition = new
         return userService.queryAll();
     }
     /**
@@ -43,6 +45,6 @@ public class DomeController {
      */
     @GetMapping(value = "getByKey")
     public Object getByKey(@RequestParam(value = "key",defaultValue = "name",required = false) String key){
-        return redisUtil.get(key);
+        return (new RedisUtil()).get(key);
     }
 }
