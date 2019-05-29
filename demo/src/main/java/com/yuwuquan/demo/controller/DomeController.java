@@ -18,15 +18,31 @@ public class DomeController {
     @Autowired
     private UserService userService;
     private static final Logger logger = LoggerFactory.getLogger(DomeController.class);
+
+    /**
+     * 简单的测试
+     * @param name
+     * @return
+     */
     @GetMapping(value = "/hello")
     public String print(@RequestParam(value = "name",defaultValue = "Anonym",required = false) String name){
         logger.info(name + " Come on");
         return "Hi! " + name.toUpperCase() + ", Welcome to my world!";
     }
-
+    /**
+     * 集成mybatis+mysql
+     * @return
+     */
     @GetMapping(value = "getAll")
     public  List<User>  getAll(){
         QueryCondition queryCondition = new
         return userService.queryAll();
+    }
+    /**
+     * 集成redis（使用了工具类redisUtil）
+     */
+    @GetMapping(value = "getByKey")
+    public Object getByKey(@RequestParam(value = "key",defaultValue = "name",required = false) String key){
+        return redisUtil.get(key);
     }
 }
