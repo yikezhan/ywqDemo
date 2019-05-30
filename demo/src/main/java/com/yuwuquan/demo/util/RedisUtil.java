@@ -5,11 +5,16 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+@Component
 public class RedisUtil {
 
+    //装载的是RedisConfig中定义的该bean
+    @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
     public void setRedisTemplate(RedisTemplate<String, Object> redisTemplate) {

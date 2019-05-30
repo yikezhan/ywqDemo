@@ -21,6 +21,9 @@ public class DomeController {
     private UserService userService;
     private static final Logger logger = LoggerFactory.getLogger(DomeController.class);
 
+    @Autowired
+    private RedisUtil redisUtil;
+
     /**
      * 简单的测试
      * @param name
@@ -45,6 +48,6 @@ public class DomeController {
      */
     @GetMapping(value = "getByKey")
     public Object getByKey(@RequestParam(value = "key",defaultValue = "name",required = false) String key){
-        return (new RedisUtil()).get(key);
+        return redisUtil.hasKey("5558276");
     }
 }

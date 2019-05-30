@@ -44,6 +44,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
+        <!-- redis Lettuce连接池-->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+        </dependency>
         <!-- mybatis连接-->
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
@@ -70,7 +75,17 @@
             <version>1.16.20</version>
             <scope>provided</scope>
         </dependency>
+        <!-- 解决springboot configuration annotation processor not found in classpath问题 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
     </dependencies>
+
+
+
 
     <build>
         <plugins>
