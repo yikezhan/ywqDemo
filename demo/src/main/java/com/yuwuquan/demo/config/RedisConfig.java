@@ -1,4 +1,4 @@
-package com.yuwuquan.demo.util;
+package com.yuwuquan.demo.config;
 
 import org.springframework.context.annotation.Bean;
 
