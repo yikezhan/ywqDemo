@@ -19,6 +19,7 @@ public enum BaseExceptionCode {
 	
 	private String message;
 	
+	private String langCode;
 
 	private BaseExceptionCode(Integer code, String langCode, String message){
 		this.code = code;
@@ -34,5 +35,8 @@ public enum BaseExceptionCode {
 		return message;
 	}
 	
+	public String getLangCode() {
+		return langCode;
+	}
 
 }
