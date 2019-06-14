@@ -1,9 +1,12 @@
-package com.yuwuquan.demo.util;
+package com.yuwuquan.demo.util.encryption;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.util.Random;
 
+/**
+ * 用于账号密码md5加密，加盐方式为加用户名。
+ */
 public class PwdUtils {
 	
 	//35是因为数组是从0开始的，26个字母+10个 数字
