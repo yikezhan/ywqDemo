@@ -1,5 +1,6 @@
 package com.yuwuquan.demo.controller;
 
+import com.yuwuquan.demo.job.DemoJobHandler;
 import com.yuwuquan.demo.orm.model.User;
 import com.yuwuquan.demo.service.UserService;
 import com.yuwuquan.demo.util.RedisUtil;
@@ -26,6 +27,9 @@ public class DomeController {
 
     @Autowired
     private RedisUtil redisUtil;
+    @Autowired
+    private DemoJobHandler demoJobHandler;
+
 
     /**
      * 简单的测试
@@ -45,7 +49,6 @@ public class DomeController {
     @ApiOperation(value = "获取mysql的user表的所有数据")
     @GetMapping(value = "getAll")
     public  List<User>  getAll(){
-//        QueryCondition queryCondition = new
         return userService.queryAll();
     }
     /**
@@ -55,5 +58,13 @@ public class DomeController {
     @GetMapping(value = "getByKey")
     public Object getByKey(@RequestParam(value = "key",defaultValue = "name",required = false) String key){
         return redisUtil.hasKey(key);
+    }
+    /**
+     * 直接代码调用xxl-job,这样也可以直接调度，但是不推荐，因为调度器的日志并不能记录。这是当做一个正常方法去使用了
+     */
+    @ApiOperation(value = "代码调用xxl-job测试")
+    @GetMapping(value = "runXxl")
+    public Object runXxl(@RequestParam(value = "key",defaultValue = "name",required = false) String key)  throws Exception{
+        return demoJobHandler.execute("1");
     }
 }

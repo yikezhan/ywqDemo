@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
     public List<User>  queryAll(){
         PageHelper.startPage(1, 1);
         UserExample example = new UserExample();
-        return userMapper.selectByExample(example);
-//        return userMapper.queryAll();
+        //return userMapper.selectByExample(example);
+        return userMapper.queryAll();
     }
 }
