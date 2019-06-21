@@ -1,4 +1,4 @@
-package com.yuwuquan.demo.com;
+package com.yuwuquan.demo.common;
 
 import com.yuwuquan.demo.exception.ApplicationException;
 import com.yuwuquan.demo.exception.BaseExceptionCode;
