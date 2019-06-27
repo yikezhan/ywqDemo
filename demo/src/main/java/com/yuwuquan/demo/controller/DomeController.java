@@ -10,16 +10,16 @@ import io.swagger.annotations.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.TimeUnit;
+
+@RestController
+@RequestMapping(value = "/demo")
 @Api(tags="测试用的Dome类")
-@ResponseBody
-@Controller
 public class DomeController {
     @Autowired
     private UserService userService;
@@ -28,7 +28,9 @@ public class DomeController {
     @Autowired
     private RedisUtil redisUtil;
     @Autowired
-    private DemoJobHandler demoJobHandler;
+    private DemoJobHandler demoJobHandler;//测试代码中调度用，不推荐
+    @Resource(name= "MqExecutorService")
+    private ExecutorService executorService;
 
 
     /**
@@ -64,7 +66,28 @@ public class DomeController {
      */
     @ApiOperation(value = "代码调用xxl-job测试")
     @GetMapping(value = "runXxl")
-    public Object runXxl(@RequestParam(value = "key",defaultValue = "name",required = false) String key)  throws Exception{
+    public Object runXxl()  throws Exception{
         return demoJobHandler.execute("1");
+    }
+
+    /**
+     *测试自定义的线程池是否需要调用shutdown()方法进行销毁
+     */
+    @ApiOperation(value = "测试自定义的线程池")
+    @GetMapping(value = "testMulThread")
+    public void testMulThread(@RequestParam(value = "num",defaultValue = "10",required = false) Integer num)  throws Exception{
+        for(int i=0; i<num; i++){
+            executorService.submit(new Runnable(){
+                @Override
+                public void run(){
+                    try {
+                        Thread.currentThread().sleep(10000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    logger.info("线程启动" + Thread.currentThread().getName());
+                }
+            });
+        }
     }
 }

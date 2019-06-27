@@ -1,4 +1,4 @@
-package com.yuwuquan.demo.util;
+package com.yuwuquan.demo.util.common;
 
 
 import java.sql.Timestamp;

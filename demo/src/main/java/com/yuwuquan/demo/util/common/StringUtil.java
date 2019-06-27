@@ -1,4 +1,4 @@
-package com.yuwuquan.demo.util;
+package com.yuwuquan.demo.util.common;
 
 import org.apache.commons.lang3.StringUtils;
 

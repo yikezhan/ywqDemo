@@ -36,9 +36,8 @@ public class XxlJobConfig {
 
     @Value("${xxl.job.executor.logretentiondays}")
     private int logRetentionDays;
-
-
-    @Bean(initMethod = "start", destroyMethod = "destroy")
+    //暂时注释，日志太多了
+    //@Bean(initMethod = "start", destroyMethod = "destroy")
     public XxlJobSpringExecutor xxlJobExecutor() {
         logger.info(">>>>>>>>>>> xxl-job config init.");
         XxlJobSpringExecutor xxlJobSpringExecutor = new XxlJobSpringExecutor();

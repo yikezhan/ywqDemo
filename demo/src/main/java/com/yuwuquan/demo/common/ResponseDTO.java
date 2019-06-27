@@ -2,7 +2,7 @@ package com.yuwuquan.demo.common;
 
 import com.yuwuquan.demo.exception.ApplicationException;
 import com.yuwuquan.demo.exception.BaseExceptionCode;
-import com.yuwuquan.demo.util.StringUtil;
+import com.yuwuquan.demo.util.common.StringUtil;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
