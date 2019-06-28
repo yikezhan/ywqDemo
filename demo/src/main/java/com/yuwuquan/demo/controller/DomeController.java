@@ -1,12 +1,16 @@
 package com.yuwuquan.demo.controller;
 
+import com.yuwuquan.demo.activemq.message.messagedetail.FirstKindMessageDetail;
+import com.yuwuquan.demo.activemq.message.messagedetail.SecondKindMessageDetail;
 import com.yuwuquan.demo.job.DemoJobHandler;
+import com.yuwuquan.demo.activemq.message.MessageCreateUtil;
+import com.yuwuquan.demo.activemq.message.template.MessageDetail;
+import com.yuwuquan.demo.activemq.send.impl.SendMessageImpl;
 import com.yuwuquan.demo.orm.model.User;
 import com.yuwuquan.demo.service.UserService;
 import com.yuwuquan.demo.util.RedisUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping(value = "/demo")
@@ -29,8 +32,10 @@ public class DomeController {
     private RedisUtil redisUtil;
     @Autowired
     private DemoJobHandler demoJobHandler;//测试代码中调度用，不推荐
-    @Resource(name= "MqExecutorService")
+    @Resource(name= "MqExecutorService")//该线程池是mq用的，这里使用是为了测试
     private ExecutorService executorService;
+    @Autowired
+    SendMessageImpl sendMessageImpl;
 
 
     /**
@@ -90,4 +95,23 @@ public class DomeController {
             });
         }
     }
+    /**
+     *测试active的send方法。传递name和address参数。修改id为1的用户的名字。消息发送到第一个队列。消息会和队列绑定的？
+     */
+    @ApiOperation(value = "修改id为1的用户的名字")
+    @GetMapping(value = "modifyNameByMQ")
+    public void modifyNameByMQ(@RequestParam(value = "name",defaultValue = "ywq",required = false) String name,
+                               @RequestParam(value = "address",defaultValue = "jx",required = false) String address
+                               ){
+        FirstKindMessageDetail firstKindMessageDetail = new FirstKindMessageDetail();
+        firstKindMessageDetail.setId(1);
+        firstKindMessageDetail.setName(name);
+        firstKindMessageDetail.setName(address);
+        MessageDetail<FirstKindMessageDetail> messageDetail = MessageCreateUtil.createFirstKindMessageDetail1(firstKindMessageDetail);
+        String result = sendMessageImpl.sendMsg(messageDetail);
+        if(!"true".equalsIgnoreCase(result)){
+            logger.warn("mq消息发送失败");
+        }
+    }
+
 }

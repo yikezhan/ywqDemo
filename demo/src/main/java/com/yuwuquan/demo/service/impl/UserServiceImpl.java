@@ -22,4 +22,8 @@ public class UserServiceImpl implements UserService {
         //return userMapper.selectByExample(example);
         return userMapper.queryAll();
     }
+
+    public void modifyById(User user){
+        userMapper.updateByPrimaryKey(user);
+    }
 }

@@ -13,7 +13,7 @@ import java.util.concurrent.ExecutorService;
  *
  */
 @Configuration
-public class MQMultiThreadConfig {
+public class MqMultiThreadConfig {
 
     //mq执行器
     public static final String BEANNAME = "MqExecutorService";
