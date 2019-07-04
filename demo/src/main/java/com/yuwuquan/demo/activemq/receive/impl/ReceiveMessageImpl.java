@@ -9,6 +9,7 @@ import com.yuwuquan.demo.activemq.receive.ReceiveMessage;
 import com.yuwuquan.demo.exception.ApplicationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +32,7 @@ public class ReceiveMessageImpl implements ReceiveMessage {
 	 * 使用@JmsListener注解会自动监听，该方法不需要调用。该方法监听第一个队列。
 	 * @param txtMsg
 	 */
-	@JmsListener(destination = QueueType.FIRST)
+	@JmsListener(destination = QueueType.FORTH)
 	public void receiveFirstQueueMessage(String txtMsg) {
 		executorService.submit(new Runnable() {
 			@Override

@@ -19,6 +19,7 @@ public class MessageDetail<T> {
 	@Getter
 	private Class<?> tType;
 
+	//这个字段预留作为业务类型
 	@Setter
 	@Getter
 	private Integer processType;

@@ -103,11 +103,11 @@ public class DomeController {
     public void modifyNameByMQ(@RequestParam(value = "name",defaultValue = "ywq",required = false) String name,
                                @RequestParam(value = "address",defaultValue = "jx",required = false) String address
                                ){
-        FirstKindMessageDetail firstKindMessageDetail = new FirstKindMessageDetail();
-        firstKindMessageDetail.setId(1);
-        firstKindMessageDetail.setName(name);
-        firstKindMessageDetail.setName(address);
-        MessageDetail<FirstKindMessageDetail> messageDetail = MessageCreateUtil.createFirstKindMessageDetail1(firstKindMessageDetail);
+        User user = new User();
+        user.setId(1);
+        user.setName(name);
+        user.setAddress(address);
+        MessageDetail<User> messageDetail  =MessageCreateUtil.createUserDetail(user);
         String result = sendMessageImpl.sendMsg(messageDetail);
         if(!"true".equalsIgnoreCase(result)){
             logger.warn("mq消息发送失败");

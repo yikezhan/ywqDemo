@@ -4,6 +4,7 @@ import com.yuwuquan.demo.activemq.constant.MqQueueEnum;
 import com.yuwuquan.demo.activemq.message.messagedetail.FirstKindMessageDetail;
 import com.yuwuquan.demo.activemq.message.messagedetail.SecondKindMessageDetail;
 import com.yuwuquan.demo.activemq.message.template.MessageDetail;
+import com.yuwuquan.demo.orm.model.User;
 
 /**
  * 简单工厂，从这里可以创建出不同类型的消息。该消息属于哪个队列也在这里进行设定。疑问：消息怎么和队列绑定的？如果一种消息可以发送到多个队列要手动逻辑控制？
@@ -36,4 +37,15 @@ public class MessageCreateUtil {
         messageDetail.setQueueName(MqQueueEnum.THIRD_QUEUE.getName());
         return messageDetail;
     }
+
+    //创建user类型的消息，包含name，address，测试接收端转为FirstKindMessageDetail
+    public static MessageDetail<User> createUserDetail(User user) {
+        MessageDetail<User> messageDetail = new MessageDetail<>();
+        messageDetail.setT(user);
+        messageDetail.setTType(user.getClass());
+        messageDetail.setProcessType(MqQueueEnum.FORTH_QUEUE.getCode());
+        messageDetail.setQueueName(MqQueueEnum.FORTH_QUEUE.getName());
+        return messageDetail;
+    }
+
 }
