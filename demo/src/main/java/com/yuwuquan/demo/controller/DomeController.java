@@ -2,6 +2,8 @@ package com.yuwuquan.demo.controller;
 
 import com.yuwuquan.demo.activemq.message.messagedetail.FirstKindMessageDetail;
 import com.yuwuquan.demo.activemq.message.messagedetail.SecondKindMessageDetail;
+import com.yuwuquan.demo.dubbo.consumer.TestConsumer;
+import com.yuwuquan.demo.dubbo.consumer.impl.TestConsumerImpl;
 import com.yuwuquan.demo.job.DemoJobHandler;
 import com.yuwuquan.demo.activemq.message.MessageCreateUtil;
 import com.yuwuquan.demo.activemq.message.template.MessageDetail;
@@ -36,6 +38,8 @@ public class DomeController {
     private ExecutorService executorService;
     @Autowired
     SendMessageImpl sendMessageImpl;
+    @Autowired
+    TestConsumerImpl testConsumerImpl;
 
 
     /**
@@ -102,7 +106,7 @@ public class DomeController {
     @GetMapping(value = "modifyNameByMQ")
     public void modifyNameByMQ(@RequestParam(value = "name",defaultValue = "ywq",required = false) String name,
                                @RequestParam(value = "address",defaultValue = "jx",required = false) String address
-                               ){
+    ){
         User user = new User();
         user.setId(1);
         user.setName(name);
@@ -112,6 +116,30 @@ public class DomeController {
         if(!"true".equalsIgnoreCase(result)){
             logger.warn("mq消息发送失败");
         }
+    }
+    /**
+     *测试dubbo消费者1
+     */
+    @ApiOperation(value = "测试dubbo消费者，获取名字和性别")
+    @GetMapping(value = "dubboConsumerTest")
+    public String dubboConsumerTest(){
+        return "name:"+testConsumerImpl.getName()+",sex:"+testConsumerImpl.getSex();
+    }
+    /**
+     *测试dubbo消费者2
+     */
+    @ApiOperation(value = "测试dubbo消费者，获取名字年龄")
+    @GetMapping(value = "dubboConsumerTest1")
+    public String dubboConsumerTest1(){
+        return testConsumerImpl.getAge();
+    }
+    /**
+     *测试dubbo消费者3
+     */
+    @ApiOperation(value = "测试dubbo消费者，获取梦想")
+    @GetMapping(value = "dubboConsumerTest2")
+    public String dubboConsumerTest2(){
+        return testConsumerImpl.getDream();
     }
 
 }
