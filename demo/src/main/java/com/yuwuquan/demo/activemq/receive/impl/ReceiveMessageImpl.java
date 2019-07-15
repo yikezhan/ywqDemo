@@ -32,7 +32,8 @@ public class ReceiveMessageImpl implements ReceiveMessage {
 	 * 使用@JmsListener注解会自动监听，该方法不需要调用。该方法监听第一个队列。
 	 * @param txtMsg
 	 */
-	@JmsListener(destination = QueueType.FORTH)
+	//暂时注释了下面这行，把监听的先关了
+	//@JmsListener(destination = QueueType.FORTH)
 	public void receiveFirstQueueMessage(String txtMsg) {
 		executorService.submit(new Runnable() {
 			@Override
@@ -48,26 +49,6 @@ public class ReceiveMessageImpl implements ReceiveMessage {
 						log.info("MQ消息处理异常" + e.getMessage(), e);
 					}
 				}
-			}
-		});
-	}
-	//监听第二个队列
-	@JmsListener(destination = QueueType.SECOND)
-	public void receiveSecondQueueMessage(String txtMsg) {
-		executorService.submit(new Runnable() {
-			@Override
-			public void run() {
-
-			}
-		});
-	}
-	//监听第三个队列
-	@JmsListener(destination = QueueType.THIRD)
-	public void receiveThirdQueueMessage(String txtMsg) {
-		executorService.submit(new Runnable() {
-			@Override
-			public void run() {
-
 			}
 		});
 	}
