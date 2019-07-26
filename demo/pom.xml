@@ -152,6 +152,29 @@
 
 
 
+<!--    <profiles>-->
+<!--        <profile>-->
+<!--            <id>release</id>-->
+<!--            <properties>-->
+<!--                <project.release.version>0.1</project.release.version>-->
+<!--            </properties>-->
+<!--        </profile>-->
+<!--    </profiles>-->
+    <!--定义snapshots库和releases库的nexus地址-->
+    <distributionManagement>
+        <repository>
+            <id>ywq-releases</id>
+            <url>http://localhost:8081/repository/ywq_release/</url>
+        </repository>
+        <snapshotRepository>
+            <id>ywq-snapshots</id>
+            <url>http://localhost:8081/repository/ywq_snapshot/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+
+
+
     <build>
         <plugins>
             <plugin>
@@ -159,10 +182,10 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
             <!-- maven生成代码需要使用 -->
-            <plugin>
-                <groupId>org.mybatis.generator</groupId>
-                <artifactId>mybatis-generator-maven-plugin</artifactId>
-            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.mybatis.generator</groupId>-->
+<!--                <artifactId>mybatis-generator-maven-plugin</artifactId>-->
+<!--            </plugin>-->
             <!-- 打包部署 -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -172,20 +195,6 @@
                 </configuration>
             </plugin>
         </plugins>
-
-<!--            &lt;!&ndash; 添加资源 &ndash;&gt;-->
-<!--            <resources>-->
-<!--                <resource>-->
-<!--                    <directory>src/main/resources</directory>-->
-<!--                    &lt;!&ndash; src/main/resources下的指定资源放行 &ndash;&gt;-->
-<!--                    <includes>-->
-<!--                        <include>**/*.properties</include>-->
-<!--                        <include>**/*.yml</include>-->
-<!--                        <include>**/*.xml</include>-->
-<!--                    </includes>-->
-<!--                    <filtering>false</filtering>-->
-<!--                </resource>-->
-<!--            </resources>-->
     </build>
 
 </project>
