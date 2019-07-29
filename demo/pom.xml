@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <!-- 这个标签必须存在，而且它的值必须是4.0.0，这标志着我们现在使用的是maven2。 -->
     <modelVersion>4.0.0</modelVersion>
+    <!-- springboot项目的依赖版本 -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.1.4.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+
+    <!-- 以下三个也必须存在，其他项目用时引入即可。-->
     <groupId>com.yuwuquan</groupId>
     <artifactId>demo</artifactId>
+    <!-- 后缀SHAPSHOT表示发布到snapshot仓库中-->
     <version>0.0.1-SNAPSHOT</version>
+    <!-- 去掉后缀的SHAPSHOT表示发布到release仓库中-->
+    <!--<version>0.0.1</version>-->
+
+    <packaging>jar</packaging>
     <name>demo</name>
     <description>Demo project for Spring Boot</description>
 
@@ -30,7 +39,7 @@
             <scope>test</scope>
         </dependency>
 
-    <!-- 连接mysql -->
+        <!-- 连接mysql -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -152,20 +161,14 @@
 
 
 
-<!--    <profiles>-->
-<!--        <profile>-->
-<!--            <id>release</id>-->
-<!--            <properties>-->
-<!--                <project.release.version>0.1</project.release.version>-->
-<!--            </properties>-->
-<!--        </profile>-->
-<!--    </profiles>-->
     <!--定义snapshots库和releases库的nexus地址-->
     <distributionManagement>
+        <!-- 稳定版jar部署的仓库的位置。 -->
         <repository>
             <id>ywq-releases</id>
             <url>http://localhost:8081/repository/ywq_release/</url>
         </repository>
+        <!-- 快照版本部署的仓库的位置 -->
         <snapshotRepository>
             <id>ywq-snapshots</id>
             <url>http://localhost:8081/repository/ywq_snapshot/</url>
@@ -177,15 +180,11 @@
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
             <!-- maven生成代码需要使用 -->
-<!--            <plugin>-->
-<!--                <groupId>org.mybatis.generator</groupId>-->
-<!--                <artifactId>mybatis-generator-maven-plugin</artifactId>-->
-<!--            </plugin>-->
+            <!--<plugin>
+                <groupId>org.mybatis.generator</groupId>
+                <artifactId>mybatis-generator-maven-plugin</artifactId>
+            </plugin>-->
             <!-- 打包部署 -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
