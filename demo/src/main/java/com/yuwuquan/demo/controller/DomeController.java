@@ -8,24 +8,36 @@ import com.yuwuquan.demo.job.DemoJobHandler;
 import com.yuwuquan.demo.activemq.message.MessageCreateUtil;
 import com.yuwuquan.demo.activemq.message.template.MessageDetail;
 import com.yuwuquan.demo.activemq.send.impl.SendMessageImpl;
+import com.yuwuquan.demo.orm.dto.MongoUserObject;
 import com.yuwuquan.demo.orm.model.User;
+import com.yuwuquan.demo.service.MongoRepositoryInter;
 import com.yuwuquan.demo.service.UserService;
 import com.yuwuquan.demo.util.RedisUtil;
+import com.yuwuquan.demo.util.common.DateUtil;
+import com.yuwuquan.demo.util.common.StringUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping(value = "/demo")
 @Api(tags="测试用的Dome类")
-public class DomeController {
+public class DomeController{
     @Autowired
     private UserService userService;
     private static final Logger logger = LoggerFactory.getLogger(DomeController.class);
@@ -40,6 +52,14 @@ public class DomeController {
     SendMessageImpl sendMessageImpl;
     @Autowired
     TestConsumerImpl testConsumerImpl;
+    @Autowired
+    private MongoTemplate mongoTemplate;
+    /**
+     * 居然有这么神奇的用法。写个接口就行。实现类都不用。
+     * 查了下是spring data jpa，仅做了解吧。不过，对于这些若关系型的，用这种方式还是蛮不错的。
+     */
+    @Autowired
+    private MongoRepositoryInter mongoRepositoryInter;
 
 
     /**
@@ -80,7 +100,7 @@ public class DomeController {
     }
 
     /**
-     *测试自定义的线程池是否需要调用shutdown()方法进行销毁
+     * 测试自定义的线程池是否需要调用shutdown()方法进行销毁
      */
     @ApiOperation(value = "测试自定义的线程池")
     @GetMapping(value = "testMulThread")
@@ -141,5 +161,72 @@ public class DomeController {
     public String dubboConsumerTest2(){
         return testConsumerImpl.getDream();
     }
+    /**
+     *mongodb插入数据(增)
+     */
+    @ApiOperation(value = "mongodb插入数据(增)")
+    @GetMapping(value = "mongodbInsertTest")
+    public Object mongodbInsertTest(@RequestParam(value = "name",defaultValue = "俞武权",required = false) String name,
+                                    @RequestParam(value = "collectionName",defaultValue = "userList",required = false) String collectionName){
+        List<MongoUserObject> userList = new ArrayList<>();
+        userList.add(new MongoUserObject(name,"earth:"+ DateUtil.get4yMdHm(new Date())));
+        mongoTemplate.insert(userList, collectionName);
+        return mongodbQueryTest("",collectionName);
+    }
+    /**
+     *mongodb删除数据（删）
+     */
+    @ApiOperation(value = "mongodb删除数据（删）")
+    @GetMapping(value = "mongodbDeleteTest")
+    public Object mongodbDeleteTest(@RequestParam(value = "name",defaultValue = "俞武权",required = false) String name){
+        Criteria criteria = new Criteria();
+        criteria.and("name").is(name);
+        Query query = new Query(criteria);
+        mongoTemplate.remove(query,MongoUserObject.class,"userList");
+        return mongodbQueryTest("","userList");
+    }
+    /**
+     *mongodb更新数据（改）
+     */
+    @ApiOperation(value = "mongodb更新数据（改）")
+    @GetMapping(value = "mongodbUpdateTest")
+    public Object mongodbUpdateTest(@RequestParam(value = "originName",defaultValue = "俞武权",required = false) String originName,
+                                    @RequestParam(value = "objectName",defaultValue = "ywq",required = false) String objectName){
+        Criteria criteria = new Criteria();
+        criteria.and("name").is(originName);
+        Query query = new Query(criteria);
+        Update update = new Update();
+        update.set("name",objectName);
+        mongoTemplate.updateMulti(query, update, MongoUserObject.class,"userList");
+        return mongodbQueryTest("","userList");
+    }
+    /**
+     *mongodb查询数据（查）
+     */
+    @ApiOperation(value = "mongodb精确查询数据（查）")
+    @GetMapping(value = "mongodbQueryTest")
+    public Object mongodbQueryTest(@RequestParam(value = "name",defaultValue = "",required = false) String name,
+                                   @RequestParam(value = "collectionName",defaultValue = "userList",required = false) String collectionName){
+        Criteria criteria = new Criteria();
+
+        //条件方法一:
+        // criteria.and("name").is("ywq");
+        //条件方法二:
+        criteria.orOperator(Criteria.where("name").regex("ywq"),//regex()里也可以传正则表达式
+                Criteria.where("name").regex(name)
+        );
+        Query query = new Query(criteria);
+        List<MongoUserObject> findList = mongoTemplate.find(query, MongoUserObject.class,collectionName);
+        return findList;
+    }
+    /**
+     * MongoRepository的使用
+     */
+    @ApiOperation(value = "MongoRepository的使用,居然不用写方法")
+    @GetMapping(value = "MongoRepositoryTest")
+    public Object MongoRepositoryTest(@RequestParam(value = "name",defaultValue = "",required = false) String name){
+        return mongoRepositoryInter.findMongoUserObjectsByNameEquals(name);
+    }
+
 
 }
