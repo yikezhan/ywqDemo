@@ -161,6 +161,23 @@
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
             <version>2.0.0.RELEASE</version>
         </dependency>
+        <!--springboot整合elasticsearch包，使用springdata-->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-elasticsearch</artifactId>
+        </dependency>
+        <!--springboot整合elasticsearch包，使用TransportClient。7.X版本后已经弃用，8.X版本后估计就没有这个方法了。不建议。代码中使用repository形式-->
+<!--        <dependency>-->
+<!--            <groupId>org.elasticsearch</groupId>-->
+<!--            <artifactId>elasticsearch</artifactId>-->
+<!--            <version>7.1.0</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.elasticsearch.client</groupId>-->
+<!--            <artifactId>transport</artifactId>-->
+<!--            <version>7.1.0</version>-->
+<!--        </dependency>-->
+
     </dependencies>
 
 

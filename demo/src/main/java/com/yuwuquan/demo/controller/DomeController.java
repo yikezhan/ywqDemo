@@ -8,8 +8,10 @@ import com.yuwuquan.demo.job.DemoJobHandler;
 import com.yuwuquan.demo.activemq.message.MessageCreateUtil;
 import com.yuwuquan.demo.activemq.message.template.MessageDetail;
 import com.yuwuquan.demo.activemq.send.impl.SendMessageImpl;
+import com.yuwuquan.demo.orm.dto.ElasticsearchObject;
 import com.yuwuquan.demo.orm.dto.MongoUserObject;
 import com.yuwuquan.demo.orm.model.User;
+import com.yuwuquan.demo.service.ElasticsearchRepositoryInter;
 import com.yuwuquan.demo.service.MongoRepositoryInter;
 import com.yuwuquan.demo.service.UserService;
 import com.yuwuquan.demo.util.RedisUtil;
@@ -20,6 +22,7 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -60,6 +63,13 @@ public class DomeController{
      */
     @Autowired
     private MongoRepositoryInter mongoRepositoryInter;
+    /**
+     * 和上面类似，也是springdata的写法
+     */
+    @Autowired
+    private ElasticsearchRepositoryInter elasticsearchRepositoryInter;
+    @Autowired
+    private ElasticsearchTemplate elasticsearchTemplate;
 
 
     /**
@@ -226,6 +236,39 @@ public class DomeController{
     @GetMapping(value = "MongoRepositoryTest")
     public Object MongoRepositoryTest(@RequestParam(value = "name",defaultValue = "",required = false) String name){
         return mongoRepositoryInter.findMongoUserObjectsByNameEquals(name);
+    }
+    /**
+     * ElasticSearch的使用,查询数据
+     */
+    @ApiOperation(value = "ElasticSearch的查询(查)")
+    @GetMapping(value = "ESQuery")
+    public Object ESQuery(@RequestParam(value = "name",defaultValue = "",required = false) String name){
+        return elasticsearchRepositoryInter.findAll();
+    }
+    /**
+     * ElasticSearch的使用,查询数据
+     */
+    @ApiOperation(value = "ElasticSearch的增加(增)")
+    @GetMapping(value = "ESSave")
+    public Object ESSave(@RequestParam(value = "name",defaultValue = "",required = false) String name){
+        ElasticsearchObject elasticsearchObject = new ElasticsearchObject("1l",name,"18","权的住址","俞家学校");
+        return elasticsearchRepositoryInter.save(elasticsearchObject);
+    }
+    /**
+     * ElasticSearch的使用,模糊查询数据
+     */
+    @ApiOperation(value = "ElasticSearch的查询(查)")
+    @GetMapping(value = "ESQueryLike")
+    public Object ESQueryLike(@RequestParam(value = "key",defaultValue = "",required = false) String name){
+        return elasticsearchRepositoryInter.findByNameLike(name);
+    }
+    /**
+     * ElasticSearch的使用,删除数据
+     */
+    @ApiOperation(value = "ElasticSearch的查询(删)")
+    @GetMapping(value = "ESDelete")
+    public Object ESDelete(@RequestParam(value = "key",defaultValue = "",required = false) String name){
+        return elasticsearchRepositoryInter.deleteByNameEquals(name);
     }
 
 
