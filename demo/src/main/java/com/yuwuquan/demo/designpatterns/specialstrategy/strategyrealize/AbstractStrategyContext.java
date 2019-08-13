@@ -1,7 +1,7 @@
 package com.yuwuquan.demo.designpatterns.specialstrategy.strategyrealize;
 
 import com.alibaba.dubbo.common.utils.CollectionUtils;
-import com.yuwuquan.demo.config.MqMultiThreadConfig;
+import com.yuwuquan.demo.config.UsualMultiThreadConfig;
 import com.yuwuquan.demo.designpatterns.specialstrategy.StrategyObjectSupplementInter;
 import com.yuwuquan.demo.exception.ApplicationException;
 import com.yuwuquan.demo.designpatterns.specialstrategy.strategytype.IStrategy;
@@ -23,7 +23,7 @@ import java.util.concurrent.ExecutorService;
 public abstract class AbstractStrategyContext<P> implements StrategyContext<P> {
 
     //暂且用mq的连接池
-    @Resource(name = MqMultiThreadConfig.BEANNAME)
+    @Resource(name = UsualMultiThreadConfig.BEANNAME)
     protected ExecutorService executorService;
 
     /**

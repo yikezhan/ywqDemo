@@ -1,5 +1,6 @@
 package com.yuwuquan.demo.controller;
 
+import com.yuwuquan.demo.config.UsualMultiThreadConfig;
 import com.yuwuquan.demo.dubbo.consumer.impl.TestConsumerImpl;
 import com.yuwuquan.demo.job.DemoJobHandler;
 import com.yuwuquan.demo.activemq.message.MessageCreateUtil;
@@ -44,8 +45,8 @@ public class DomeController{
     @Autowired
     private RedisUtil redisUtil;
     @Autowired
-    private DemoJobHandler demoJobHandler;//测试代码中调度用，不推荐
-    @Resource(name= "MqExecutorService")//该线程池是mq用的，这里使用是为了测试
+    private DemoJobHandler demoJobHandler;//测试代码中调度用，不推荐这样使用
+    @Resource(name= UsualMultiThreadConfig.BEANNAME)
     private ExecutorService executorService;
     @Autowired
     SendMessageImpl sendMessageImpl;
