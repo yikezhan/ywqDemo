@@ -1,8 +1,5 @@
 package com.yuwuquan.demo.controller;
 
-import com.yuwuquan.demo.activemq.message.messagedetail.FirstKindMessageDetail;
-import com.yuwuquan.demo.activemq.message.messagedetail.SecondKindMessageDetail;
-import com.yuwuquan.demo.dubbo.consumer.TestConsumer;
 import com.yuwuquan.demo.dubbo.consumer.impl.TestConsumerImpl;
 import com.yuwuquan.demo.job.DemoJobHandler;
 import com.yuwuquan.demo.activemq.message.MessageCreateUtil;
@@ -14,9 +11,10 @@ import com.yuwuquan.demo.orm.model.User;
 import com.yuwuquan.demo.service.ElasticsearchRepositoryInter;
 import com.yuwuquan.demo.service.MongoRepositoryInter;
 import com.yuwuquan.demo.service.UserService;
+import com.yuwuquan.demo.designpatterns.specialstrategy.SaveStrategyServiceInter;
+import com.yuwuquan.demo.designpatterns.specialstrategy.pojo.Order;
 import com.yuwuquan.demo.util.RedisUtil;
 import com.yuwuquan.demo.util.common.DateUtil;
-import com.yuwuquan.demo.util.common.StringUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -27,7 +25,6 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -35,7 +32,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping(value = "/demo")
@@ -70,6 +66,10 @@ public class DomeController{
     private ElasticsearchRepositoryInter elasticsearchRepositoryInter;
     @Autowired
     private ElasticsearchTemplate elasticsearchTemplate;
+
+    //策略模式生成订单
+    @Autowired
+    private SaveStrategyServiceInter testPlaceOrderStrategy;
 
 
     /**
@@ -270,6 +270,15 @@ public class DomeController{
     public Object ESDelete(@RequestParam(value = "key",defaultValue = "",required = false) String name){
         return elasticsearchRepositoryInter.deleteByNameEquals(name);
     }
-
+    /**
+     * 测试Special策略模式生成订单
+     */
+    @ApiOperation(value = "测试策略模式生成订单")
+    @GetMapping(value = "strategyTest")
+    public Object strategyTest(){
+        Order order = new Order();
+        testPlaceOrderStrategy.save(order);
+        return order;
+    }
 
 }
