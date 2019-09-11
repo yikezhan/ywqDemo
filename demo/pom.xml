@@ -177,7 +177,22 @@
 <!--            <artifactId>transport</artifactId>-->
 <!--            <version>7.1.0</version>-->
 <!--        </dependency>-->
-
+        <!-- 引入dozer自动的完成相同属性名称的复制-->
+        <dependency>
+            <groupId>com.github.dozermapper</groupId>
+            <artifactId>dozer-core</artifactId>
+            <version>6.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.dozermapper</groupId>
+            <artifactId>dozer-spring4</artifactId>
+            <version>6.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.dozer</groupId>
+            <artifactId>dozer</artifactId>
+            <version>5.5.1</version>
+        </dependency>
     </dependencies>
 
 
