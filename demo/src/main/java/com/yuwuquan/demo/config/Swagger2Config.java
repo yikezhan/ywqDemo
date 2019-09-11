@@ -37,7 +37,7 @@ public class Swagger2Config {
 
 	private ApiInfo apiInfo() {
 		Contact contact = new Contact("ywq","http://localhost:8080","734041370@qq.com");
-		String path = env.getProperty("server.servlet.context-path");
+		String path = env.getProperty("server.servlet.context-path")+"/swagger";
 		if(StringUtil.isEmpty(path)) {
 			path="/demo";
 		}
