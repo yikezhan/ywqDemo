@@ -193,6 +193,12 @@
             <artifactId>dozer</artifactId>
             <version>5.5.1</version>
         </dependency>
+        <!-- guava工具库，代码中测试布隆过滤器使用了 -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>19.0</version>
+        </dependency>
     </dependencies>
 
 
