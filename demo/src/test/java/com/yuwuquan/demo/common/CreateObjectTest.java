@@ -41,11 +41,11 @@ public class CreateObjectTest {
             File f = new File("m1.obj");
             FileOutputStream fos = new FileOutputStream(f);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
-            FileInputStream fis = new FileInputStream(f);
-            ObjectInputStream ois = new ObjectInputStream(fis);
             //序列化对象，写入到磁盘中
             oos.writeObject(m1);
             //反序列化对象
+            FileInputStream fis = new FileInputStream(f);
+            ObjectInputStream ois = new ObjectInputStream(fis);
             Man m5 = (Man)ois.readObject();
             System.out.println(m1.equals(m5));//false
         } catch (Exception e) {
