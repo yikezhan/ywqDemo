@@ -22,7 +22,6 @@ import java.util.concurrent.ExecutorService;
 @Slf4j
 public abstract class AbstractStrategyContext<P> implements StrategyContext<P> {
 
-    //暂且用mq的连接池
     @Resource(name = UsualMultiThreadConfig.BEANNAME)
     protected ExecutorService executorService;
 

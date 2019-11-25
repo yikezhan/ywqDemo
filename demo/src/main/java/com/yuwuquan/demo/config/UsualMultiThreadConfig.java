@@ -13,7 +13,6 @@ import java.util.concurrent.ExecutorService;
 @Configuration
 public class UsualMultiThreadConfig {
 
-    //mq执行器
     public static final String BEANNAME = "UsualExecutorService";
 
     private int corePoolSize = 8;
