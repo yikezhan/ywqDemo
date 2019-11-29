@@ -1,6 +1,4 @@
-package com.yuwuquan.demo.common;
-
-import java.math.BigDecimal;
+package com.yuwuquan.demo.common.knowledgetest;
 
 class A{
     void init(){

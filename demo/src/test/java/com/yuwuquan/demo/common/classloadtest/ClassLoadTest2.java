@@ -1,15 +1,16 @@
-package com.yuwuquan.demo.common;
+package com.yuwuquan.demo.common.classloadtest;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * 重写类加载器，使用时会调用loadClass。
+ * 只有在父类加载器加载失败时才会使用自定义的加载器。
  */
-public class ClassLoadTest {
+public class ClassLoadTest2 {
     public static void main(String[] args) throws Exception{
-        ClassLoader myLoad = new ClassLoader() {
+        ClassLoader myLoad = new ClassLoader() {//这里正常情况不会调用到这个加载
             @Override
-            public Class<?> loadClass(String name) throws ClassNotFoundException {
+            protected Class<?> findClass(String name) throws ClassNotFoundException {
                 try {
                     String fileName = name.substring(name.lastIndexOf(".")+1)+".class";
                     InputStream is = getClass().getResourceAsStream(fileName);
@@ -19,13 +20,13 @@ public class ClassLoadTest {
                     byte[] b = new byte[is.available()];
                     is.read(b);
                     return defineClass(name, b , 0 ,b.length);
-                } catch (Exception e) {
+                } catch (IOException e) {
                     throw new ClassNotFoundException();
                 }
             }
         };
-        Object obj = myLoad.loadClass("com.yuwuquan.demo.common.ClassLoadTest").newInstance();
+        Object obj = myLoad.loadClass("com.yuwuquan.demo.common.classloadtest.ClassLoadTest2").newInstance();
         System.out.println(obj.getClass());
-        System.out.println(obj instanceof ClassLoadTest);
+        System.out.println(obj instanceof ClassLoadTest2);//true
     }
 }

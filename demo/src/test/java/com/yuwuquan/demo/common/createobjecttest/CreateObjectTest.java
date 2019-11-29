@@ -1,7 +1,6 @@
-package com.yuwuquan.demo.common;
+package com.yuwuquan.demo.common.createobjecttest;
 
 import java.io.*;
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * 创建一个对象的几种方法
@@ -13,7 +12,7 @@ public class CreateObjectTest {
         //第二种，反射，直接使用newInstance
         Class c1 = null;
         try {
-            c1 = Class.forName("com.yuwuquan.demo.common.Man");
+            c1 = Class.forName("com.yuwuquan.demo.common.createobjecttest.Man");
             Man m2 = (Man)c1.newInstance();
             System.out.println(m1.equals(m2));//false
         } catch (Exception e) {
@@ -22,7 +21,7 @@ public class CreateObjectTest {
         //第三种，反射，使用getConstructor
         Class c2 = null;
         try {
-            c2 = Class.forName("com.yuwuquan.demo.common.Man");
+            c2 = Class.forName("com.yuwuquan.demo.common.createobjecttest.Man");
             Man m3 = (Man)c2.getConstructor().newInstance();
             System.out.println(m1.equals(m3));//false
         } catch (Exception e) {

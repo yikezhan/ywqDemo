@@ -1,4 +1,4 @@
-package com.yuwuquan.demo.common;
+package com.yuwuquan.demo.common.createobjecttest;
 
 import java.io.Serializable;
 
