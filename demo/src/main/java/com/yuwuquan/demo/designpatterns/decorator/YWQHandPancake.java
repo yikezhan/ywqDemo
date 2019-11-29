@@ -19,6 +19,11 @@ public class YWQHandPancake implements HandPancake {
         return 5;
     }
 
+    /**
+     * new Vegetable(new Egg(new Bacon(handPancake)));看这个形式装饰器的含义像是在handPancake外面挂了点其他东西吧。
+     * 手抓饼是包在里面的，不恰当。
+     * @param args
+     */
     public static void main(String[] args) {
         //测试类型1
         HandPancake handPancake = new YWQHandPancake();

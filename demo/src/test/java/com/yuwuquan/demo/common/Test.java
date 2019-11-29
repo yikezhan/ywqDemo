@@ -1,26 +1,31 @@
 package com.yuwuquan.demo.common;
 
+import java.math.BigDecimal;
+
+class A{
+    void init(){
+        System.out.println("A init()");
+        this.init2();
+    }
+    void init2(){
+        System.out.println("A init2()");
+    }
+}
+class B extends A{
+    void init2(){
+        System.out.println("B init2()");
+        super.init2();
+    }
+}
+
 public class Test {
     public static void main(String[] args) {
-        Test test = new Test();
-        try {
-            Test test2 = (Test)Test.class.getClassLoader().loadClass("com.yuwuquan.demo.common.Test").newInstance();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        try {
-            Test test3 = (Test) Class.forName("com.yuwuquan.demo.common.Test").newInstance();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        A a = new B();
+        a.init();
+//        输出为:
+//        A init()
+//        B init2()
+//        A init2()
 
     }
 }

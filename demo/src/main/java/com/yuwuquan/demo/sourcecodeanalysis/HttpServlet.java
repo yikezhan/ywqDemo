@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * tomcat范畴。
+ * java范畴。
  * 主要是实现了http协议相关的方法。虽然是抽象类，但是并没有抽象方法。父类的init()方法没有在这个类重写，在子类进行了重新。
  * 对于正常的servlet，在这一层基本都封装结束了，该实现的方法也都实现了。springmvc在下一层开始对init、service、destory都进行了重写。
  * 主要研究init()的流程、对于destory()、service就暂时不做深入研究，代码即省略了。
