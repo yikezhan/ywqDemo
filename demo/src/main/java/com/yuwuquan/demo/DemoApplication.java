@@ -3,7 +3,6 @@ package com.yuwuquan.demo;
 import com.alibaba.dubbo.config.spring.context.annotation.DubboComponentScan;
 import com.alibaba.dubbo.config.spring.context.annotation.EnableDubbo;
 import com.alibaba.dubbo.spring.boot.context.event.DubboBannerApplicationListener;
-import com.yuwuquan.demo.controller.DomeController;
 import com.yuwuquan.demo.util.common.NetUtil;
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;

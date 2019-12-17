@@ -18,7 +18,7 @@ public class QueryMessageProcess implements MessageProcess {
 
     @Override
     public ProcessResultEnum processMessage(MessageDetail<?> messageDetail) {
-        logger.info("测试mq的业务处理过程。此处业务过程为：查询了一次所以的用户信息,结果如下:{}",userService.queryAll());
+        //logger.info("测试mq的业务处理过程。此处业务过程为：查询了一次所以的用户信息,结果如下:{}",userService.queryAll());
         return ProcessResultEnum.SUCCESS;
     }
 }
