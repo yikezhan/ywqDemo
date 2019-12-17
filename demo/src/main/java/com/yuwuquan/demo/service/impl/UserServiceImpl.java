@@ -32,6 +32,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void updatePasswordByPhone(SysUserInfo user) {
+        if(user.getPassword() != null && user.getPhone() != null){
+            user.setPassword(PwdUtils.encryptPassword(user.getPhone(),user.getPassword()));
+            userMapper.updatePasswordByPhone(user);
+        }
+    }
+
+    @Override
     public SysUserInfo queryByUser(SysUserInfo user) {
         if(user != null && StringUtil.isNotBlank(user.getPhone())){
             List<SysUserInfo> sysUserInfos = userMapper.queryByUser(user);

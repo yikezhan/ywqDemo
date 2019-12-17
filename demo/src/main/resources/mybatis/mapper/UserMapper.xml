@@ -1,32 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yuwuquan.demo.orm.dao.UserMapper">
-  <insert id="insertUser" parameterType="com.yuwuquan.demo.orm.model.SysUserInfo"  useGeneratedKeys="true" keyProperty="id">
-    INSERT INTO `bingo_common`.`sys_user_info` (
-      `unique_id`,
-      `phone`,
-      `username`,
-      `password`,
-      `name`,
-      `sex`,
-      `createtime`,
-      `modifytime`,
-      `isvalid`
-    )
-    VALUES
-    (
-        #{unique_id},
-        #{phone},
-        #{username},
-        #{password},
-        #{name},
-        #{sex},
-        NOW(),
-        NOW(),
-        1
-    );
-  </insert>
-  <select id="queryByUser" parameterType="com.yuwuquan.demo.orm.model.SysUserInfo" resultType="com.yuwuquan.demo.orm.model.SysUserInfo">
+    <insert id="insertUser" parameterType="com.yuwuquan.demo.orm.model.SysUserInfo"  useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `bingo_common`.`sys_user_info` (
+          `unique_id`,
+          `phone`,
+          `username`,
+          `password`,
+          `name`,
+          `sex`,
+          `createtime`,
+          `modifytime`,
+          `isvalid`
+        )
+        VALUES
+        (
+            #{unique_id},
+            #{phone},
+            #{username},
+            #{password},
+            #{name},
+            #{sex},
+            NOW(),
+            NOW(),
+            1
+        );
+    </insert>
+    <update id="updatePasswordByPhone" parameterType="com.yuwuquan.demo.orm.model.SysUserInfo">
+        UPDATE `bingo_common`.`sys_user_info`
+        SET password = #{password}
+        WHERE phone = #{phone}
+    </update>
+    <select id="queryByUser" parameterType="com.yuwuquan.demo.orm.model.SysUserInfo" resultType="com.yuwuquan.demo.orm.model.SysUserInfo">
        SELECT
           `id`,
           `unique_id`,
@@ -56,5 +61,5 @@
           AND sui.id = #{id}
       </if>
 
-  </select>
+    </select>
 </mapper>

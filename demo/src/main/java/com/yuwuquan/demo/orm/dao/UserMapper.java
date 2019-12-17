@@ -10,4 +10,6 @@ import java.util.List;
 public interface UserMapper {
     void insertUser(SysUserInfo user);
     List<SysUserInfo> queryByUser(SysUserInfo user);
+    void updatePasswordByPhone(SysUserInfo user);
+
 }
