@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Random;
 
-@Api(tags="测试用的Dome类")
+@Api(tags="用户信息相关")
 @RestController
 @RequestMapping(value = "/user")
 public class UserController {
