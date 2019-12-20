@@ -1,6 +1,5 @@
 package com.yuwuquan.demo.orm.model;
 
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -11,13 +10,15 @@ import java.io.Serializable;
 @Data
 @ApiModel
 public class SysUserInfo extends BaseTable implements Serializable {
+    private static final long serialVersionUID = 668543345682101751L;
     public SysUserInfo() {
     }
     public SysUserInfo(String phone) {
         this.phone = phone;
     }
-    private static final long serialVersionUID = 668543345682101751L;
+    @ApiModelProperty(value = "主键id", example = "1", dataType = "Integer")
     private Long id;
+    @ApiModelProperty(value = "唯一标识", example = "1")
     private String unique_id;
     @NonNull
     @ApiModelProperty(value = "手机号，登录用户名", example = "13127951111")

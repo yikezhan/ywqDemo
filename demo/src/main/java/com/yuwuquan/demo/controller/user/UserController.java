@@ -3,6 +3,8 @@ package com.yuwuquan.demo.controller.user;
 import com.yuwuquan.demo.exception.ApplicationException;
 import com.yuwuquan.demo.orm.model.SysUserInfo;
 import com.yuwuquan.demo.service.UserService;
+import com.yuwuquan.demo.session.JwtTokenUtil;
+import com.yuwuquan.demo.session.SysContent;
 import com.yuwuquan.demo.sysenum.CodeEnum;
 import com.yuwuquan.demo.util.RedisUtil;
 import com.yuwuquan.demo.util.encryption.PwdUtils;
@@ -13,6 +15,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.swing.*;
 import java.util.Random;
 
 @Api(tags="用户信息相关")
@@ -22,10 +26,9 @@ public class UserController {
     @Autowired
     private UserService userService;
     @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+    @Autowired
     private RedisUtil redisUtil;
-
-    private static final long SESSION_TIME = 60*60*12;//默认session有效期为12小时
-    private static final String SESSION_KEY_PRE = "session_";//redis的session的key前缀
 
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -35,8 +38,8 @@ public class UserController {
     public Object quickRegister(@RequestBody SysUserInfo sysUserInfo){
         try{
             userService.insertUser(sysUserInfo);
-            setSession(sysUserInfo);
-            return "注册成功,已自动登录";
+            String token = setSession(sysUserInfo);
+            return "注册成功,已自动登录。返回token";
         }catch (ApplicationException e){
             return "参数校验失败";
         }catch (Exception e){
@@ -51,8 +54,8 @@ public class UserController {
         sysUserInfo.setPassword(PwdUtils.encryptPassword(phone,password));
         sysUserInfo = userService.queryByUser(sysUserInfo);
         if(sysUserInfo != null){
-            setSession(sysUserInfo);
-            return "登录成功";
+            String token = setSession(sysUserInfo);
+            return "登录成功。返回token";
         }else{
             return "密码错误";
         }
@@ -77,13 +80,13 @@ public class UserController {
         Object redisCode = redisUtil.get(CodeEnum.VERIFICATION_CODE_KEY_PRE.getValue() + phone);
         if(redisCode != null && redisCode.toString().equals(code)){
             SysUserInfo sysUserInfo = new SysUserInfo(phone);
-            setSession(sysUserInfo);
+            String token = setSession(sysUserInfo);
             SysUserInfo sysUser = userService.queryByUser(sysUserInfo);
             if(sysUser == null){//无此账号则自动注册
                 sysUserInfo.setPassword((new Random().nextInt(1000000))+"");//随机密码
                 userService.insertUser(sysUserInfo);
             }
-            return "登录成功";
+            return "登录成功。返回token";
         }else{
             return "验证码错误";
         }
@@ -109,10 +112,14 @@ public class UserController {
     }
 
     //登录成功，设置session
-    private void setSession(SysUserInfo sysUserInfo){
-        redisUtil.set(SESSION_KEY_PRE + sysUserInfo.getPhone(),1,SESSION_TIME);//设置有效期为30min
+    private String setSession(SysUserInfo sysUserInfo){
+        String token = jwtTokenUtil.generateToken(sysUserInfo);//这里生成的token里面的有效时间不做处理
+        redisUtil.set(CodeEnum.SESSION_KEY_PRE.getValue() + sysUserInfo.getPhone(),1,CodeEnum.SESSION_KEY_PRE.getTime());
+        return token;
     }
     private void removeSession(SysUserInfo sysUserInfo){
-        redisUtil.del(SESSION_KEY_PRE + sysUserInfo.getPhone());
+        if(redisUtil.get(CodeEnum.SESSION_KEY_PRE.getValue() + sysUserInfo.getPhone()) != null){
+            redisUtil.del(CodeEnum.SESSION_KEY_PRE.getValue() + sysUserInfo.getPhone());
+        }
     }
 }

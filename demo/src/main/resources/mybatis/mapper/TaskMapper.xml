@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuwuquan.demo.orm.dao.TaskMapper">
+    <select id="queryAllTask" parameterType="com.yuwuquan.demo.orm.model.SysTaskInfo" resultType="com.yuwuquan.demo.orm.model.SysTaskInfo">
+       SELECT
+          `id`,
+          `task_name` AS taskName,
+          `task_desc` AS taskDesc,
+          `createtime` AS createTime,
+          `modifytime` AS modifyTime,
+          `fk_user_create` AS fkUserCreate,
+          `fk_user_modify` AS fkUserModify,
+          `isvalid` AS isValid
+        FROM
+            bingo_common.sys_task_info
+        WHERE
+            isvalid = 1
+
+    </select>
+</mapper>
