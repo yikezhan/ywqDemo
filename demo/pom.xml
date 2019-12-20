@@ -166,6 +166,17 @@
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-elasticsearch</artifactId>
         </dependency>
+        <!-- 整合JWT-->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.9.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>3.4.0</version>
+        </dependency>
         <!--springboot整合elasticsearch包，使用TransportClient。7.X版本后已经弃用，8.X版本后估计就没有这个方法了。不建议。代码中使用repository形式-->
 <!--        <dependency>-->
 <!--            <groupId>org.elasticsearch</groupId>-->
