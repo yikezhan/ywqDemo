@@ -60,8 +60,8 @@ public class TaskController {
         return "任务数据列表";
     }
     @ApiOperation(value = "查询某一任务详情")
-    @PostMapping(value = "/queryPublishTask")
-    public Object queryPublishTask(@RequestParam Integer taskId){
+    @PostMapping(value = "/queryPublishTaskById")
+    public Object queryPublishTaskById(@RequestParam Integer taskId){
 //        List<PublishTask> publishTasks = publishTaskService.queryPublishTask(publishTask);
         return "任务数据列表";
     }

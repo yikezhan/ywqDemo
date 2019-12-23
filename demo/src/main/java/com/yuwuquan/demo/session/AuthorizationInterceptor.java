@@ -28,7 +28,8 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
      * 所有用户都能访问的页面路径
      */
     static {
-        filterList.add("/login");
+        //在com.yuwuquan.demo.session.InterceporConfig里增加了
+//        filterList.add("/login");
     }
     private static final String tokenHeader = "tokenHeader";
     @Autowired
@@ -42,7 +43,8 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String pagePath = extractPathFromPattern(request);
+//        String pagePath = extractPathFromPattern(request);
+        String pagePath = (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
         //登录页面等无需权限控制
         if(filterList.contains(pagePath)){
             return true;
