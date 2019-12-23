@@ -98,7 +98,7 @@ public class UserController {
         removeSession(sysUserInfo);
         return "退出成功";//登录页面
     }
-    @ApiOperation(value = "发送验证码")
+    @ApiOperation(value = "发送验证码，包括登录、修改密码等操作")
     @GetMapping(value = "/sendCode")
     public Object sendCode(@RequestParam("phone") String phone, Integer code){
         CodeEnum codeEnum = CodeEnum.getCodeEnumByCode(code);

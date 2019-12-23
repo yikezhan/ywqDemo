@@ -23,7 +23,8 @@ public class InterceporConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authorizationInterceptor)// 注册拦截器
-                .addPathPatterns("/**").excludePathPatterns(excludePathPatterns)
+//                .addPathPatterns("/**")//先把所有的拦截去掉，
+                .excludePathPatterns(excludePathPatterns)
                 .excludePathPatterns("/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**");// 拦截所有请求
     }
 }

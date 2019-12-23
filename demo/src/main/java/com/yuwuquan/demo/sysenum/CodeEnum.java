@@ -5,9 +5,9 @@ package com.yuwuquan.demo.sysenum;
  */
 public enum CodeEnum {
 
-    SESSION_KEY_PRE(3,"session_","",60*60*24*7),
     VERIFICATION_CODE_KEY_PRE(1,"phone_code_","用户验证码的key前缀",60*3),
     MODIFY_PASSWORD_KEY_PRE(2,"modify_password_code_","修改密码的key前缀",60*1),
+    SESSION_KEY_PRE(3,"session_","",60*60*24*7),
     ;
     private Integer code;
     private String value;
