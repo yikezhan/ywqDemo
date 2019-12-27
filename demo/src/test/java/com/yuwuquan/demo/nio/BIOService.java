@@ -55,6 +55,7 @@ class TimeServerHandle implements Runnable{
                 currentTime = "Query time order".equalsIgnoreCase(boby)? (new Date()).toString() : "Bad order";
                 out.println(currentTime);
             }
+            //Thread.sleep(10000);//打开测试线程过多时服务崩溃的效果
         } catch (Exception e) {
             if(in != null){
                 try {
