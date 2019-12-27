@@ -21,11 +21,11 @@ public class BIOClient implements Runnable{
             socket = new Socket("127.0.0.1",8011);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new PrintWriter(socket.getOutputStream(), true);
-            out.println("query time order");
-            resp = in.readLine();
+            out.println("query time order");//发送指令
+            resp = in.readLine();//获取服务端的返回结果
             System.out.println("Thread "+v+",Now is : " + resp);
-            out.println("query your dad");
-            resp = in.readLine();
+            out.println("query your dad");//发送指令
+            resp = in.readLine();//获取服务端的返回结果
             System.out.println("Thread "+v+",Your dad : " + resp);
         } catch (IOException e) {
             e.printStackTrace();

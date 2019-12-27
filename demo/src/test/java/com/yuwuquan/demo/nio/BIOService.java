@@ -20,8 +20,8 @@ public class BIOService {
             server = new ServerSocket(8011);
             Socket socket = null;
             while (true){
-                socket = server.accept();
-                new Thread(new TimeServerHandle(socket)).start();
+                socket = server.accept();//不断监听该端口数据
+                new Thread(new TimeServerHandle(socket)).start();//启动一个新的线程处理当前客户端请求
             }
         } catch (IOException e) {
             e.printStackTrace();
