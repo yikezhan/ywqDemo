@@ -1,4 +1,4 @@
-package com.yuwuquan.demo.nio;
+package com.yuwuquan.demo.nio.bio;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,8 +18,11 @@ public class BIOClient implements Runnable{
         PrintWriter out = null;
         String resp = null;
         try {
+            //1、新建Socket
             socket = new Socket("127.0.0.1",8011);
+            //2、从socket获取BufferedReader
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            //3、从socket获取PrintWriter
             out = new PrintWriter(socket.getOutputStream(), true);
             out.println("query time order");//发送指令
             resp = in.readLine();//获取服务端的返回结果
