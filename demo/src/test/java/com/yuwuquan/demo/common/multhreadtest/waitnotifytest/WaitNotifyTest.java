@@ -1,4 +1,4 @@
-package com.yuwuquan.demo.common.waitnotifytest;
+package com.yuwuquan.demo.common.multhreadtest.waitnotifytest;
 
 
 public class WaitNotifyTest {
