@@ -7,6 +7,7 @@ import com.yuwuquan.demo.orm.model.UserExample;
 import com.yuwuquan.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,6 +22,10 @@ public class UserServiceImpl implements UserService {
         UserExample example = new UserExample();
         //return userMapper.selectByExample(example);
         return userMapper.queryAll();
+    }
+    @Transactional
+    public void  insertOne(){
+        userMapper.insertOne();
     }
 
     public void modifyById(User user){

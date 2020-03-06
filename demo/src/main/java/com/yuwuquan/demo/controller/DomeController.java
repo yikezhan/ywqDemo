@@ -97,6 +97,21 @@ public class DomeController{
     public  List<User>  getAll(){
         return userService.queryAll();
     }
+    @ApiOperation(value = "新增一条记录，测试事务下的新增并发问题")
+    @GetMapping(value = "/insertOne")
+    public  String  insertOne(){
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                userService.insertOne();
+            }
+        };
+        Thread thread = new Thread(runnable);
+        Thread thread2 = new Thread(runnable);
+        executorService.submit(thread);
+        executorService.submit(thread2);
+        return "success";
+    }
     /**
      * 集成redis（使用了工具类redisUtil）
      */

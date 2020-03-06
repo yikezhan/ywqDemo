@@ -4,6 +4,7 @@ import com.yuwuquan.demo.orm.model.User;
 import com.yuwuquan.demo.orm.model.UserExample;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -13,6 +14,9 @@ public interface UserMapper {
 
     @Select("select * from user")
     List<User> queryAll();
+
+    @Insert("INSERT INTO `demo`.`user` (`name`, `address`) VALUES ('ywq', 'jx');")
+    void insertOne();
 
     long countByExample(UserExample example);
 
