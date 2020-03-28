@@ -199,6 +199,12 @@
             <artifactId>guava</artifactId>
             <version>19.0</version>
         </dependency>
+        <!-- netty学习，使用了这个版本 -->
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>5.0.0.Alpha1</version>
+        </dependency>
     </dependencies>
 
 

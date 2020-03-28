@@ -39,7 +39,7 @@ public class TimeServer {
 
         @Override
         protected void initChannel(SocketChannel socketChannel) throws Exception {
-            socketChannel.pipeline().addLast(new TimeServerHandler());
+//            socketChannel.pipeline().addLast(new TimeServerHandler());
         }
     }
     public static void main(String[] args) {

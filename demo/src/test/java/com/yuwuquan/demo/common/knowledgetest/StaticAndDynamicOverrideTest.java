@@ -20,6 +20,7 @@ public class StaticAndDynamicOverrideTest {
             System.out.println("hello,woman");
         }
     }
+
     static void sayHello(Human human){
         System.out.println("hello, human");
     }

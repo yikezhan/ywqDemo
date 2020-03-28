@@ -16,7 +16,7 @@ public class SemaphoreTest {
                 semaphore.acquire();//获取1个共享资源。（也可以传参获取n个共享资源）
 //                semaphore.tryAcquire();
                 System.out.println("线程"+atomicInteger.getAndIncrement());
-                Thread.sleep(5000);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -25,7 +25,7 @@ public class SemaphoreTest {
     }
     public void test(){
         MyRun myRun = new MyRun();
-        for(int i=0;i<10;i++){
+        for(int i=0;i<100;i++){
             Thread thread1 = new Thread(myRun);
             thread1.start();
         }
