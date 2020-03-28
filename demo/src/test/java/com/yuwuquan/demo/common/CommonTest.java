@@ -1,32 +1,32 @@
 package com.yuwuquan.demo.common;
 
-import com.yuwuquan.demo.common.leetcode.ReVerseLink;
-
-import java.math.BigDecimal;
-import java.util.Optional;
+import java.util.concurrent.Semaphore;
 
 public class CommonTest {
     public static void main(String[] args) {
-        System.out.println(new Integer(1).equals(null));
-    }
-    public static class ListNode {
-        int val;
-        ListNode next;
-        ListNode(int x) { val = x; }
-    }
-    public ListNode removeElements(ListNode head, int val) {
-        while(head.val==val){
-            head = head.next;
-        }
-        ListNode mHead = head;
-        ListNode pre = head;
-        while(head != null){
-            if(head.val == val){
-                pre.next = head.next;
+        System.out.println("ai");
+        Runnable runnable = new Runnable() {
+            Semaphore semaphore = new Semaphore(1);
+            volatile int i = 1;
+            @Override
+            public void run() {
+                try {
+                    semaphore.acquire(1);
+                    if(i % 2 == 0){
+                        System.out.println("a");
+                    }else{
+                        System.out.println("b");
+                    }
+                    i++;
+                    semaphore.release(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-            pre = head;
-            head = head.next;
-        }
-        return mHead;
+        };
+        Thread thread1 = new Thread(runnable);
+        Thread thread2 = new Thread(runnable);
+        thread1.start();
+        thread2.start();
     }
 }
