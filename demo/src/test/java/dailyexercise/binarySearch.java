@@ -10,7 +10,9 @@ public class binarySearch {
         (new binarySearch()).quicksort(nums,0,nums.length-1);
         System.out.print("排序后：果果  ");
         System.out.println(Arrays.toString(nums));
+
     }
+    //快排
     public void quicksort(int[] nums,int start,int end) {
         while(end <= start) return;
         int index = start;
