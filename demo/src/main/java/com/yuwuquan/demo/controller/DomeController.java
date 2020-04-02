@@ -10,6 +10,7 @@ import com.yuwuquan.demo.orm.dto.ElasticsearchObject;
 import com.yuwuquan.demo.orm.dto.MongoUserObject;
 import com.yuwuquan.demo.orm.model.User;
 import com.yuwuquan.demo.service.ElasticsearchRepositoryInter;
+import com.yuwuquan.demo.service.GoodsService;
 import com.yuwuquan.demo.service.MongoRepositoryInter;
 import com.yuwuquan.demo.service.UserService;
 import com.yuwuquan.demo.designpatterns.specialstrategy.SaveStrategyServiceInter;
@@ -44,6 +45,8 @@ import java.util.concurrent.ExecutorService;
 public class DomeController{
     @Autowired
     private UserService userService;
+    @Autowired
+    private GoodsService goodsService;
     private static final Logger logger = LoggerFactory.getLogger(DomeController.class);
 
     @Autowired
@@ -299,6 +302,14 @@ public class DomeController{
         Order order = new Order();
         testPlaceOrderStrategy.save(order);
         return order;
+    }
+    /**
+     * 测试订单扣库存操作
+     */
+    @ApiOperation(value = "测试订单扣库存操作")
+    @GetMapping(value = "delNum")
+    public Object delNum(){
+        return goodsService.updateGoodsInventory(1);
     }
 
 }
