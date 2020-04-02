@@ -1,13 +1,14 @@
 package com.yuwuquan.demo.sysenum;
 
 /**
- * 验证码类型在redis的前缀
+ * redis中各种key的前缀及含义
  */
 public enum CodeEnum {
 
-    VERIFICATION_CODE_KEY_PRE(1,"phone_code_","用户验证码的key前缀",60*3),
+    VERIFICATION_CODE_KEY_PRE(1,"phone_code_","手机验证码的key前缀",60*3),
     MODIFY_PASSWORD_KEY_PRE(2,"modify_password_code_","修改密码的key前缀",60*1),
-    SESSION_KEY_PRE(3,"session_","",60*60*24*7),
+    SESSION_KEY_PRE(3,"session_","session信息的前缀",60*60*24*7),
+    IMAGE_VERIFICATION_CODE_KEY_PRE(4,"image_code_","图形验证码的前缀",60),
     ;
     private Integer code;
     private String value;

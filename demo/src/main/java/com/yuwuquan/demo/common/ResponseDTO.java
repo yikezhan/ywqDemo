@@ -24,45 +24,37 @@ public class ResponseDTO implements Serializable{
 	private String errorMessage;
 	
 	@ApiModelProperty(value="状态码",dataType="Integer",required=true,example="100")
-	private String responseCode;
+	private Integer responseCode;
 	
 	@ApiModelProperty(value="是否包含错误",dataType="Boolean",required=true,example="false")
 	private boolean hasError;
 
-	
-	public void success(String msg) {
-		this.responseCode = StringUtil.valueOf(BaseExceptionCode.SUCCESS.getCode());
-//		this.message = ResponseStatusCode.SUCCESS.getMessage();
-		this.message = msg;
+	public ResponseDTO success() {
+		this.responseCode = ResponseStatusCode.SUCCESS.getCode();
+		this.message = ResponseStatusCode.SUCCESS.getMessage();
 		this.hasError = false;
+		return this;
 	}
 	
-	public void systemFail() {
-		this.responseCode = StringUtil.valueOf(BaseExceptionCode.UNKNOWN_ERROR.getCode());
-		this.message = BaseExceptionCode.UNKNOWN_ERROR.getMessage();
+	public ResponseDTO systemFail() {
+		this.responseCode = ResponseStatusCode.UNKNOWN_ERROR.getCode();
+		this.message = ResponseStatusCode.UNKNOWN_ERROR.getMessage();
 		this.hasError = true;
+		return this;
 	}
 	
-	public void systemFail(ApplicationException ae) {
-		this.responseCode = StringUtil.valueOf(ae.getErrCode());
+	public ResponseDTO systemFail(ApplicationException ae) {
+		this.responseCode = ae.getErrCode();
 		this.message = ae.getMessage();
 		this.errorMessage=ae.getErrorMsg();
 		this.hasError = true;
+		return this;
 	}
-	
-	public void systemFail(String code, String msg, String errmsg) {
+
+	public ResponseDTO systemFail(ResponseStatusCode responseStatusCode){
 		this.hasError = true;
-		this.responseCode = code;
-		this.message = msg;
-		this.errorMessage = errmsg;
-		/*if( e != null ){
-			this.responseCode =Integer.toString(e.getErrCode());
-			this.message = e.getErrorMsg();
-			this.errorMessage = e.getErrorMsg();
-		}else{
-			this.responseCode = StringUtil.valueOf(ResponseStatusCode.UNKNOWN_ERROR.getCode());
-			this.message = msg;
-			this.errorMessage = msg;
-		}*/
+		this.responseCode = responseStatusCode.getCode();
+		this.message = responseStatusCode.getMessage();
+		return this;
 	}
 }

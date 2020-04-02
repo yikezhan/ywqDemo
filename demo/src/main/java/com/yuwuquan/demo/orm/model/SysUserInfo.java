@@ -35,4 +35,10 @@ public class SysUserInfo extends BaseTable implements Serializable {
 
     @ApiModelProperty(value = "性别。0男，1女", example = "1", dataType = "Integer")
     private int sex;
+
+
+    @ApiModelProperty(value = "验证码", example = "2311", dataType = "String")
+    private String imageCode;
+
+
 }

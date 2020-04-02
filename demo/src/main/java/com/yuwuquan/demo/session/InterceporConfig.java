@@ -14,11 +14,15 @@ public class InterceporConfig implements WebMvcConfigurer {
     private AuthorizationInterceptor authorizationInterceptor;
     static List<String> excludePathPatterns = new ArrayList<>();
     static{
+        excludePathPatterns.add("/error");
         excludePathPatterns.add("/user/loginByPassword");
         excludePathPatterns.add("/user/loginByVerificationCode");
         excludePathPatterns.add("/user/loginOut");
         excludePathPatterns.add("/user/quickRegister");
         excludePathPatterns.add("/user/sendCode");
+        excludePathPatterns.add("/auth/vcode.jpg");//验证码
+
+
     }
     @Override
     public void addInterceptors(InterceptorRegistry registry) {

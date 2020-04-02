@@ -30,6 +30,7 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
     static {
         //在com.yuwuquan.demo.session.InterceporConfig里增加了
 //        filterList.add("/login");
+        filterList.add("auth/auth/vcode");
     }
     private static final String tokenHeader = "tokenHeader";
     @Autowired
