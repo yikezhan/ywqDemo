@@ -44,7 +44,7 @@ public class UserController {
         String sysVerCode = StringUtil.valueOf(redisUtil.get(CodeEnum.IMAGE_VERIFICATION_CODE_KEY_PRE.getValue() + sysUserInfo.getPhone()), "");
         String imgCode = sysUserInfo.getImageCode();
         if(needImageCode && (imgCode == null || !imgCode.equals(sysVerCode)))//验证图形验证码
-            return new ResponseDTO().systemFail(ResponseStatusCode.IMG_VERIFY_CODE_ERROR);
+            return ResponseDTO.systemFail(ResponseStatusCode.IMG_VERIFY_CODE_ERROR);
         LoginResponse loginResponse = new LoginResponse();
         try{
             userService.insertUser(sysUserInfo);
@@ -75,15 +75,14 @@ public class UserController {
     @ApiOperation(value = "根据手机号更新密码")
     @GetMapping(value = "/updatePasswordByPhone")
     public ResponseDTO updatePasswordByPhone(@RequestParam("phone") String phone, @RequestParam("code") String code, @RequestParam("newPassword") String newPassword){
-        ResponseDTO responseDTO = new ResponseDTO();
         Object redisCode = redisUtil.get(CodeEnum.MODIFY_PASSWORD_KEY_PRE.getValue() + phone);
         if(redisCode != null && redisCode.toString().equals(code)){
             SysUserInfo sysUserInfo = new SysUserInfo(phone);
             sysUserInfo.setPassword(newPassword);
             userService.updatePasswordByPhone(sysUserInfo);
-            return responseDTO.success();
+            return ResponseDTO.success();
         }else{
-            return responseDTO.systemFail(ResponseStatusCode.VERIFY_CODE_ERROR);
+            return ResponseDTO.systemFail(ResponseStatusCode.VERIFY_CODE_ERROR);
         }
     }
     @ApiOperation(value = "验证码登录")
@@ -109,7 +108,7 @@ public class UserController {
     public ResponseDTO  loginOut(@RequestParam("phone") String phone){
         SysUserInfo sysUserInfo = new SysUserInfo(phone);
         removeSession(sysUserInfo);
-        return new ResponseDTO().success();//登录页面
+        return ResponseDTO.success();//登录页面
     }
     @ApiOperation(value = "发送验证码，包括登录、修改密码等操作")
     @GetMapping(value = "/sendCode")
@@ -117,15 +116,15 @@ public class UserController {
         CodeEnum codeEnum = CodeEnum.getCodeEnumByCode(type);
         String sysVerCode = StringUtil.valueOf(redisUtil.get(CodeEnum.IMAGE_VERIFICATION_CODE_KEY_PRE.getValue() + phone), "");
         if(needImageCode && (imgCode == null || !imgCode.equals(sysVerCode)))//验证图形验证码
-            return new ResponseDTO().systemFail(ResponseStatusCode.IMG_VERIFY_CODE_ERROR);
+            return ResponseDTO.systemFail(ResponseStatusCode.IMG_VERIFY_CODE_ERROR);
         if(codeEnum == null)
-            return new ResponseDTO().systemFail();
+            return ResponseDTO.systemFail();
         if(redisUtil.get(codeEnum.getValue() +phone) != null)
-            return new ResponseDTO().systemFail(ResponseStatusCode.VERIFY_CODE_EXIST);
+            return ResponseDTO.systemFail(ResponseStatusCode.VERIFY_CODE_EXIST);
 
         String verificationCode = "12345";// TODO: 2019/12/17 发送短信操作
         redisUtil.set(CodeEnum.getCodeEnumByCode(type).getValue() + phone, verificationCode, CodeEnum.getCodeEnumByCode(type).getTime());
-        return new ResponseDTO().success();
+        return ResponseDTO.success(null);
     }
 
 

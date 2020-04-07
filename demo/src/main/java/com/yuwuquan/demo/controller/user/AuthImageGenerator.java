@@ -39,6 +39,6 @@ public class AuthImageGenerator {
 		log.debug("verifyCode-->"+verifyCode.toLowerCase());
 		int w = 100, h = 30;// 生成图片
 		VerifyCodeUtils.outputImage(w, h, response.getOutputStream(), verifyCode);
-		return new ResponseDTO().success();
+		return ResponseDTO.success();
 	}
 }
