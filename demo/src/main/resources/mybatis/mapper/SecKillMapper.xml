@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuwuquan.demo.orm.dao.SecKillMapper">
+    <update id="inventoryDeduction" parameterType="java.lang.String">
+        UPDATE `bingo_common`.`seckillgoods`
+        SET `use_num` = use_num + 1
+        WHERE
+            `isvalid` = 1
+        AND `sku` = #{sku}
+        AND total_num > use_num;
+    </update>
+    <insert id="insertSecKillSuccessUser" parameterType="com.yuwuquan.demo.seckillsys.dto.SecKillGoodsDTO">
+        INSERT INTO `bingo_common`.`seckillsuccessrecord` (
+            `sku`,
+            `fk_user`,
+            `createtime`,
+            `modifytime`,
+            `fk_user_create`,
+            `fk_user_modify`,
+            `isvalid`
+        )
+        VALUES
+            (
+                #{sku},
+                #{userId},
+                NOW(),
+                NOW(),
+                '-1',
+                '-1',
+                '1'
+            );
+    </insert>
+
+
+</mapper>

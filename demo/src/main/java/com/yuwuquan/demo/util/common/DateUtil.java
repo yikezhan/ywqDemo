@@ -1447,4 +1447,18 @@ public class DateUtil {
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern(DATE_FORMAT_YYYYMMDDHHMM);
         return localDateTime.format(fmt);
     }
+
+    public static Long getSBD(int day) {//获取day天的秒数
+        return day*24*60*60L;
+    }
+    public static Long getSBH(int hour) {//获取hour的秒数
+        return hour*24*60L;
+    }
+    public static Long getSBM(int minute) {//获取hour的秒数
+        return minute*60L;
+    }
+    public static Long getSBS(int seconds) {//获取hour的秒数
+        return Long.valueOf(seconds);
+    }
+
 }

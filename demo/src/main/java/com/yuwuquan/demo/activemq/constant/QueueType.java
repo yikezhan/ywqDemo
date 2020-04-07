@@ -8,4 +8,5 @@ public interface QueueType {
     public static final String SECOND = "a_ywq_test2_queue";
     public static final String THIRD = "a_ywq_test3_queue";
     public static final String FORTH = "a_ywq_update_user_by_id";
+    public static final String SEC_KILL_QUEUE = "sec_kill_goods";
 }

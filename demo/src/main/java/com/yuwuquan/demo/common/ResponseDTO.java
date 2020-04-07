@@ -78,11 +78,11 @@ public class ResponseDTO<T> implements Serializable{
 
 
 
-	private ResponseDTO(T t) {
+	protected ResponseDTO(T t) {
 		this.t = t;
 	}
 
-	private ResponseDTO() {
+	protected ResponseDTO() {
 	}
 
 	private ResponseDTO successOp() {

@@ -31,6 +31,14 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
         //在com.yuwuquan.demo.session.InterceporConfig里增加了
 //        filterList.add("/login");
         filterList.add("auth/auth/vcode");
+
+        //秒杀系统测试，暂时不需要登录
+        filterList.add("/seckill/getKey");
+        filterList.add("/seckill/orderBooking");
+        filterList.add("/seckill/orderBookingTest");
+        filterList.add("/seckill/getRes");
+        filterList.add("/seckill/setRedisKeyJobHandler");
+
     }
     private static final String tokenHeader = "tokenHeader";
     @Autowired

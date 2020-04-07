@@ -1,5 +1,6 @@
-package com.yuwuquan.demo.seckillsys;
+package com.yuwuquan.demo.seckillsys.controller;
 
+import com.yuwuquan.demo.seckillsys.dto.SecKillGoodsDTO;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
@@ -9,7 +10,6 @@ import java.io.Serializable;
 @ApiModel
 public class SecKillRequest implements Serializable {
     private static final long serialVersionUID = 668543345682101751L;
-    Long userId;//秒杀用户id
-    String sku;//秒杀商品sku
-    String key;//活动开始时间key值
+
+    private SecKillGoodsDTO secKillGoodsDTO;//秒杀商品信息
 }

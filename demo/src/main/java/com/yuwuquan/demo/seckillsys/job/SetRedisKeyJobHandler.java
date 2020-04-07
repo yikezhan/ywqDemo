@@ -1,9 +1,10 @@
-package com.yuwuquan.demo.seckillsys;
+package com.yuwuquan.demo.seckillsys.job;
 
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.handler.IJobHandler;
 import com.xxl.job.core.handler.annotation.JobHandler;
 import com.xxl.job.core.log.XxlJobLogger;
+import com.yuwuquan.demo.seckillsys.SecKillEnum;
 import com.yuwuquan.demo.util.RedisUtil;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class SetRedisKeyJobHandler extends IJobHandler {
 	public ReturnT<String> execute(String param) throws Exception {
 		XxlJobLogger.log("XXL-JOB, setRedisKeyJobHandler.time={}",new Date());
 		String value = (param==null? String.valueOf(RandomUtils.nextInt()):param);
-		redisUtil.set(SecKillEnum.SEC_KILL_START_KEY.getValue(),value,SecKillEnum.SEC_KILL_START_KEY.getTime());
+		redisUtil.set(SecKillEnum.SEC_KILL_START_KEY.getKey(),value,SecKillEnum.SEC_KILL_START_KEY.getTime());
 		return SUCCESS;
 	}
 
