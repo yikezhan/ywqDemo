@@ -547,7 +547,6 @@ public class RedisUtil {
      * key不存在时，返回ture，存在时返回false
      * @param key
      * @param value
-     * @param expireTime
      * @return
      */
     public boolean setIfAbsent(String key, String value) {
