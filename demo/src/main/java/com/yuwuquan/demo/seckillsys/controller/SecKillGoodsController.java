@@ -69,9 +69,12 @@ public class SecKillGoodsController {
     public ResponseDTO orderBooking(@RequestBody SecKillRequest secKillRequest){
         SecKillGoodsDTO secKillGoodsDTO = secKillRequest.getSecKillGoodsDTO();
         try{
-            if(checkKey(secKillGoodsDTO.getKey()) && checkUser(secKillGoodsDTO.getUserId()) && checkSKU(secKillGoodsDTO.getSku())){//检查是否到时间点，商品是否是秒杀商品
+
+            if(checkKey(secKillGoodsDTO.getKey()) && checkSKU(secKillGoodsDTO.getSku())){//检查是否到时间点，商品是否是秒杀商品
+                checkUser(secKillGoodsDTO.getUserId());//检查用户是否点击过
                 if(checkMQNum(secKillGoodsDTO.getSku())){//检查同一个商品最多入队数目，超出则直接返回售罄
-                    redisUtil.set(SecKillEnum.SEC_KILL_QUEUE_USER_PRE.getKey() + secKillGoodsDTO.getUserId(), SecKillStatusEnum.SecKillDoing.getValue(),SecKillEnum.SEC_KILL_QUEUE_USER_PRE.getTime());//秒杀中
+                    boolean res = redisUtil.setIfAbsent(SecKillEnum.SEC_KILL_QUEUE_USER_PRE.getKey() + secKillGoodsDTO.getUserId(), SecKillStatusEnum.SecKillDoing.getValue(),SecKillEnum.SEC_KILL_QUEUE_USER_PRE.getTime());//秒杀中
+                    if(!res) throw new ApplicationException("您已秒杀过了",-1);// TODO: 2020/4/8 细节1：双重检查，避免同一用户重复下单
                     MessageDetail<SecKillGoodsDTO> messageDetail  = MessageCreateUtil.createSecKillInfo(secKillGoodsDTO);
                     String result = sendMessage.sendMsg(messageDetail);
                     if(!"true".equalsIgnoreCase(result)){
@@ -122,7 +125,7 @@ public class SecKillGoodsController {
     }
     private boolean checkMQNum(String sku){
         long num = redisUtil.incr(SecKillEnum.SEC_KILL_QUEUE_NUM_PRE.getKey()+sku,1);//记录该商品进mq中的数量
-        if(num < 10000){//mq最多进1w个请求
+        if(num < 10000){//mq最多进1w个请求。入队数目可以考虑在mq中间件本身上设置
             return true;
         }else{
             throw new ApplicationException("商品已售罄",-1);//进入队列失败

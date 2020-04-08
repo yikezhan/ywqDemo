@@ -526,4 +526,30 @@ public class RedisUtil {
             return 0;
         }
     }
+
+    /**
+     * key不存在时，返回ture，存在时返回false
+     * @param key
+     * @param value
+     * @param expireTime
+     * @return
+     */
+    public boolean setIfAbsent(String key, String value, long expireTime) {
+        try {
+            Boolean result = redisTemplate.opsForValue().setIfAbsent(key,value,expireTime, TimeUnit.SECONDS);
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    public boolean setIfAbsent(String key, String value) {
+        try {
+            Boolean result = redisTemplate.opsForValue().setIfAbsent(key,value,-1, TimeUnit.SECONDS);
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
