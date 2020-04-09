@@ -32,7 +32,7 @@ public class ExecutorServiceFactory implements FactoryBean<ExecutorService> {
     public ExecutorService getObject() throws Exception {
         ExecutorService executorService = new ThreadPoolExecutor(corePoolSize, maximumPoolSize,
                 keepAliveTime, TimeUnit.MILLISECONDS,
-                new ArrayBlockingQueue<>(10),Executors.defaultThreadFactory());
+                new ArrayBlockingQueue<>(1000),Executors.defaultThreadFactory());
         return executorService;
     }
 

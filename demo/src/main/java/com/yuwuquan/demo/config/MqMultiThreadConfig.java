@@ -18,8 +18,8 @@ public class MqMultiThreadConfig {
     //mq执行器
     public static final String BEANNAME = "MqExecutorService";
 
-    private int corePoolSize = 8;
-    private int maximumPoolSize = 16;
+    private int corePoolSize = 16;
+    private int maximumPoolSize = 32;
     private long keepAliveTime = 10000;
 
     @Bean(name = BEANNAME)
