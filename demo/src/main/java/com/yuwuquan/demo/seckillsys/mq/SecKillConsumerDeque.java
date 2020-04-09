@@ -42,7 +42,7 @@ public class SecKillConsumerDeque implements ReceiveMessage {
 	 * @param txtMsg
 	 */
 	@JmsListener(destination = QueueType.SEC_KILL_QUEUE)
-	public void receiveFirstQueueMessage(String txtMsg) {
+	public void receiveSecKillQueueMessage(String txtMsg) {
 		executorService.submit(() -> {
 			try{
 				MessageDetail<?> messageDetail = JSON.parseObject(txtMsg, MessageDetail.class);
