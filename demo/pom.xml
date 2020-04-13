@@ -258,6 +258,8 @@
                 </configuration>
             </plugin>
         </plugins>
+        <!-- 打成的包的最终的名字 -->
+        <finalName>demo</finalName>
     </build>
 
 </project>
