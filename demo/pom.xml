@@ -19,7 +19,8 @@
     <!-- 去掉后缀的SHAPSHOT表示发布到release仓库中-->
     <!--<version>0.0.1</version>-->
 
-    <packaging>jar</packaging>
+<!--    <packaging>jar</packaging>-->
+    <packaging>war</packaging>
     <name>demo</name>
     <description>Demo project for Spring Boot</description>
 
@@ -240,10 +241,18 @@
                 <groupId>org.mybatis.generator</groupId>
                 <artifactId>mybatis-generator-maven-plugin</artifactId>
             </plugin>-->
-            <!-- 打包部署 -->
+            <!-- 打包部署成jar或者war -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.yuwuquan.demo.DemoApplication</mainClass>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.0.0</version>
                 <configuration>
                     <mainClass>com.yuwuquan.demo.DemoApplication</mainClass>
                 </configuration>
