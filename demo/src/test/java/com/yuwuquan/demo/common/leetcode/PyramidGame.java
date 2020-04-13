@@ -28,16 +28,16 @@ public class PyramidGame {
         while(end <= start) return;
         int index = start;
         int val = nums[index][tag];
-        int val2 = nums[index][Math.abs(1-tag)];
+        int val2 = nums[index][PyramidGame.abs(1-tag)];
         int left = start;
         int right = end;
         while(left<right){
-            while((val<nums[right][tag] || (val==nums[right][tag] && val2>nums[right][Math.abs(1-tag)])) && right>index) right--;
+            while((val<nums[right][tag] || (val==nums[right][tag] && val2>nums[right][PyramidGame.abs(1-tag)])) && right>index) right--;
             if(left>=right) break;
             swap(nums,index,right);
             index = right;
             left++;
-            while((val>nums[left][tag] || (val==nums[left][tag] && val2<nums[left][Math.abs(1-tag)])) && left<index) left++;
+            while((val>nums[left][tag] || (val==nums[left][tag] && val2<nums[left][PyramidGame.abs(1-tag)])) && left<index) left++;
             if(left>=right) break;
             swap(nums,index,left);
             index = left;
@@ -75,5 +75,8 @@ public class PyramidGame {
             }
         }
         return stack.size();
+    }
+    public static int abs(int a) {
+        return (a < 0) ? -a : a;
     }
 }
