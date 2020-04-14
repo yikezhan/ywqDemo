@@ -1,14 +1,16 @@
 package com.yuwuquan.demo.sysenum;
 
+import com.yuwuquan.demo.util.common.DateUtil;
+
 /**
  * redis中各种key的前缀及含义
  */
 public enum CodeEnum {
 
-    VERIFICATION_CODE_KEY_PRE(1,"phone_code_","手机验证码的key前缀",60*3),
-    MODIFY_PASSWORD_KEY_PRE(2,"modify_password_code_","修改密码的key前缀",60*1),
-    SESSION_KEY_PRE(3,"session_","session信息的前缀",60*60*24*7),
-    IMAGE_VERIFICATION_CODE_KEY_PRE(4,"image_code_","图形验证码的前缀",60),
+    VERIFICATION_CODE_KEY_PRE(1,"phone_code_","手机验证码的key前缀", DateUtil.getSBM(3)),
+    MODIFY_PASSWORD_KEY_PRE(2,"modify_password_code_","修改密码的key前缀",DateUtil.getSBM(1)),
+    SESSION_KEY_PRE(3,"session_","session信息的前缀",DateUtil.getSBD(7)),
+    IMAGE_VERIFICATION_CODE_KEY_PRE(4,"image_code_","图形验证码的前缀",DateUtil.getSBM(1)),
     ;
     private Integer code;
     private String value;
