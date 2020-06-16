@@ -20,12 +20,12 @@ public class TestProxy {
         //测试JDK动态代理
         BuyHouseInter buyHouseInter2 = new BuyHouseImpl();
         BuyHouseInter JDKDynamicProxy = (BuyHouseInter) Proxy.newProxyInstance(BuyHouseInter.class.getClassLoader(), new Class[]{BuyHouseInter.class}, new JDKDynamicBuyHouseProxy(buyHouseInter2));
-        JDKDynamicProxy.buy2();
+        JDKDynamicProxy.buy();
         System.out.println("--------------------------华丽分隔符CGLIBdynamic---------------------------------");
         //测试CGLIB动态代理
         BuyHouseImpl buyHouseInter3 = new BuyHouseImpl();
         CGLIBDynamicBuyHouseProxy cglibProxy = new CGLIBDynamicBuyHouseProxy();
         BuyHouseImpl CGLIBDynamicProxy = (BuyHouseImpl) cglibProxy.getInstance(buyHouseInter3);
-        CGLIBDynamicProxy.buy2();
+        CGLIBDynamicProxy.buy();
     }
 }
