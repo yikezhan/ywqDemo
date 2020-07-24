@@ -14,9 +14,9 @@ import java.util.concurrent.Executors;
  *
  */
 public class ThreadLocalTest {
+    private ThreadLocal<Integer> integerThreadLocal = new ThreadLocal<Integer>();
     private class MyRun implements Runnable{
         private int val=0;
-        private ThreadLocal<Integer> integerThreadLocal = new ThreadLocal<Integer>();
         @Override
         public void run() {//注意比较i和integerThreadLocal打印值的区别
             System.out.println(val);

@@ -1,5 +1,11 @@
 package com.yuwuquan.demo.controller;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
 import com.yuwuquan.demo.config.UsualMultiThreadConfig;
 import com.yuwuquan.demo.dubbo.consumer.impl.TestConsumerImpl;
 import com.yuwuquan.demo.job.DemoJobHandler;
@@ -27,16 +33,18 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.io.ByteArrayOutputStream;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 
 @RestController
@@ -310,6 +318,37 @@ public class DomeController{
     @GetMapping(value = "delNum")
     public Object delNum(){
         return goodsService.updateGoodsInventory(1);
+    }
+
+    @ApiOperation(value = "获取二维码")
+    @GetMapping(value="/createQRImage")
+    public ResponseEntity<byte[]> getQRImage() {
+
+        String text = "www.baidu.com";//二维码内的信息（扫描后能看见）
+
+        byte[] qrcode = null;
+        try {
+            qrcode = getQRCode(text, 400, 400);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        final HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_PNG);
+
+        return new ResponseEntity<>(qrcode, headers, HttpStatus.CREATED);//返回图片
+    }
+
+    public static byte[] getQRCode(String text, int width, int height) throws Exception {
+        Map<EncodeHintType, Object> hints = new HashMap<>();
+        hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
+        QRCodeWriter qrCodeWriter = new QRCodeWriter();
+        BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, width, height,hints);
+
+        ByteArrayOutputStream pngOutputStream = new ByteArrayOutputStream();
+        MatrixToImageWriter.writeToStream(bitMatrix, "PNG", pngOutputStream);
+        byte[] pngData = pngOutputStream.toByteArray();
+        return pngData;
     }
 
 }
