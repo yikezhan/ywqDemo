@@ -324,7 +324,7 @@ public class DomeController{
     @GetMapping(value="/createQRImage")
     public ResponseEntity<byte[]> getQRImage() {
 
-        String text = "www.baidu.com";//二维码内的信息（扫描后能看见）
+        String text = "http://note.youdao.com/noteshare?id=8f72113e99d0c1a5b2e62395c10e22fb&sub=EB55DD4222D84A5ABE4526C1AE028A75";//二维码内的信息（扫描后能看见）
 
         byte[] qrcode = null;
         try {
