@@ -1,12 +1,19 @@
 package com.yuwuquan.demo.common;
 
-import java.util.Arrays;
-import java.util.Stack;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class CommonTest {
+    String s;
+    public String getS(){
+        return s;
+    }
     public static void main(String[] args) {
-        int[][] a={{1,2},{1,2}};
-//        System.out.println(new CommonTest().gameOfLife(a));// ((()))((()))((()))
+        List<CommonTest> list = new ArrayList<>();
+        CommonTest c = new CommonTest();c.s="s";
+        list.add(new CommonTest());
+        String s = list.stream().map(CommonTest::getS).filter(Objects::nonNull).collect(Collectors.joining(","));
+        System.out.println(s);
     }
     public void gameOfLife(int[][] board) {
         int[][] res = new int[board.length][board[0].length];
