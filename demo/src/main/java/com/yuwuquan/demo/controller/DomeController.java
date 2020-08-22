@@ -15,10 +15,7 @@ import com.yuwuquan.demo.activemq.send.impl.SendMessageImpl;
 import com.yuwuquan.demo.orm.dto.ElasticsearchObject;
 import com.yuwuquan.demo.orm.dto.MongoUserObject;
 import com.yuwuquan.demo.orm.model.User;
-import com.yuwuquan.demo.service.ElasticsearchRepositoryInter;
-import com.yuwuquan.demo.service.GoodsService;
-import com.yuwuquan.demo.service.MongoRepositoryInter;
-import com.yuwuquan.demo.service.UserService;
+import com.yuwuquan.demo.service.*;
 import com.yuwuquan.demo.designpatterns.specialstrategy.SaveStrategyServiceInter;
 import com.yuwuquan.demo.designpatterns.specialstrategy.pojo.Order;
 import com.yuwuquan.demo.util.RedisUtil;
@@ -53,6 +50,8 @@ import java.util.concurrent.ExecutorService;
 public class DomeController{
     @Autowired
     private UserService userService;
+    @Autowired
+    private TestService testService;
     @Autowired
     private GoodsService goodsService;
     private static final Logger logger = LoggerFactory.getLogger(DomeController.class);
@@ -103,24 +102,32 @@ public class DomeController{
      * 集成mybatis+mysql
      * @return
      */
+    @ApiOperation(value = "模拟事务异常")//Transaction rolled back because it has been marked as rollback-only
+    @GetMapping(value = "/mockTranscationException")
+    public  String  mockTranscationException(){
+        testService.mockTranscationException();
+        return "success";
+    }
+
+    @ApiOperation(value = "模拟并发时，一个事务内一个线程抛异常时的情况。")
+    @GetMapping(value = "/testMulThreadTransactional")
+    public  String  testMulThreadTransactional(){
+        userService.testMulThreadTransactional();
+        return "success";
+    }
+    /**
+     * 集成mybatis+mysql
+     * @return
+     */
     @ApiOperation(value = "获取mysql的user表的所有数据")
     @GetMapping(value = "getAll")
     public  List<User>  getAll(){
         return userService.queryAll();
     }
-    @ApiOperation(value = "新增一条记录，测试事务下的新增并发问题")
+    @ApiOperation(value = "新增一条记录")
     @GetMapping(value = "/insertOne")
     public  String  insertOne(){
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                userService.insertOne();
-            }
-        };
-        Thread thread = new Thread(runnable);
-        Thread thread2 = new Thread(runnable);
-        executorService.submit(thread);
-        executorService.submit(thread2);
+        userService.insertOne();
         return "success";
     }
     /**
@@ -324,7 +331,8 @@ public class DomeController{
     @GetMapping(value="/createQRImage")
     public ResponseEntity<byte[]> getQRImage() {
 
-        String text = "www.baidu.com";//二维码内的信息（扫描后能看见）
+        //String text = "http://note.youdao.com/noteshare?id=8f72113e99d0c1a5b2e62395c10e22fb&sub=EB55DD4222D84A5ABE4526C1AE028A75";//二维码内的信息（扫描后能看见）
+        String text = "note.youdao.com/noteshare?id=8f72113e99d0c1a5b2e62395c10e22fb&sub=EB55DD4222D84A5ABE4526C1AE028A75";//二维码内的信息（扫描后能看见）
 
         byte[] qrcode = null;
         try {

@@ -12,4 +12,6 @@ public interface UserService {
     List<User> queryAll();
     void  insertOne();
     void modifyById(User user);
+    void testMulThreadTransactional();
+    void mockTranscationException(int a);
 }
