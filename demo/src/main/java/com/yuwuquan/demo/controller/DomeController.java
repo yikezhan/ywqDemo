@@ -20,6 +20,7 @@ import com.yuwuquan.demo.designpatterns.specialstrategy.SaveStrategyServiceInter
 import com.yuwuquan.demo.designpatterns.specialstrategy.pojo.Order;
 import com.yuwuquan.demo.util.RedisUtil;
 import com.yuwuquan.demo.util.common.DateUtil;
+import io.goeasy.GoEasy;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -357,6 +358,45 @@ public class DomeController{
         MatrixToImageWriter.writeToStream(bitMatrix, "PNG", pngOutputStream);
         byte[] pngData = pngOutputStream.toByteArray();
         return pngData;
+    }
+    /**
+     * 测试goeasy,实时发送信息
+     */
+    @ApiOperation(value = "测试goeasy,实时发送信息")
+    @GetMapping(value = "wechatMessage")
+    public Object wechatMessage(String txtMsg) {
+        return "success";
+    }
+    /**
+     * 接收聊天消息，用于智能回复
+     */
+    @ApiOperation(value = "接收聊天消息，用于智能回复")
+    @GetMapping(value = "/AIChatAnswer")
+    public Object AIChatAnswer(String txtMsg) {
+        if(txtMsg == null || !txtMsg.startsWith("@大白 ")){
+            return "";
+        }
+        /**
+         * 杭州: rest-hangzhou.goeasy.io
+         * 新加坡: rest-singapore.goeasy.io
+         */
+        String regionHost = "https://rest-hangzhou.goeasy.io";
+        String appkey = "BC-e610bc3f28ab4a9086858c80842ba0b8";
+        String channel = "channel1";
+        String content = "";
+        GoEasy goEasy = new GoEasy(regionHost, appkey);
+        if("@大白 名字".equals(txtMsg)){
+            content = "你爸爸";
+        }
+        if("@大白 在维护？".equals(txtMsg)){
+            content = "你真是个小机灵鬼!";
+        }
+        if("I can't see you".equals(content)){
+            return "";
+        }else{
+            goEasy.publish(channel, content);
+        }
+        return "";
     }
 
 }

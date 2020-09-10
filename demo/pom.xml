@@ -19,7 +19,7 @@
     <!-- 去掉后缀的SHAPSHOT表示发布到release仓库中-->
     <!--<version>0.0.1</version>-->
 
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <name>demo</name>
     <description>Demo project for Spring Boot</description>
 
@@ -219,6 +219,12 @@
             <version>3.3.0</version>
         </dependency>
 
+        <!--集成goeasy，用于实时消息推送，付费产品。https://www.goeasy.io/ -->
+        <dependency>
+            <groupId>io.goeasy</groupId>
+            <artifactId>goeasy-sdk</artifactId>
+            <version>0.3.14</version>
+        </dependency>
 
     </dependencies>
 
@@ -258,7 +264,13 @@
                     <mainClass>com.yuwuquan.demo.DemoApplication</mainClass>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.0.0</version>
+            </plugin>
         </plugins>
+        <finalName>demoMaster</finalName>
     </build>
 
 </project>

@@ -1,42 +1,27 @@
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.EncodeHintType;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.client.j2se.MatrixToImageWriter;
-import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.QRCodeWriter;
-import com.yuwuquan.demo.util.common.StringUtil;
-import lombok.Getter;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import lombok.Data;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.ByteArrayOutputStream;
-import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
+@Data
+class A{
+    private String name;
+    private int age;
 
-class Super{
-    void en(){
-        m1();
-    }
-    void m1(){
-        System.out.println("Super m1");
+    public A(String name, int age) {
+        this.name = name;
+        this.age = age;
     }
 }
-class Child extends Super{
-    @Override
-    void m1(){
-        System.out.println("Child m1");
-    }
+
+@Data
+class B {
+    private String name;
+    private int age;
 }
 public class Test{
     public static void main(String[] args) {
-        Super s = new Child();
-        s.en();
+        A a = new A("ywq",12);
+        B b = JSONObject.parseObject(JSON.toJSONString(a), B.class);
+        System.out.println(b.toString());
     }
 }
