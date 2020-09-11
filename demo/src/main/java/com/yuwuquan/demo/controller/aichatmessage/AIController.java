@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @Api(tags="智能聊天相关")
 @RestController
 @RequestMapping(value = "/AI")
+@CrossOrigin//解决跨域问题
 public class AIController {
     @ApiOperation(value = "接收聊天消息，用于智能回复")
     @PostMapping(value = "/chatAnswer")
