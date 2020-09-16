@@ -10,7 +10,6 @@ public enum FixAnswerDictEnum {
     private String received;
     private String answer;
 
-    static final String name = "@大白 ";
     FixAnswerDictEnum(String received, String answer) {
         this.received = received;
         this.answer = answer;
@@ -24,7 +23,7 @@ public enum FixAnswerDictEnum {
         return answer;
     }
 
-    public static String getEnumByCode(String received){
+    public static String getEnumByCode(String name,String received){
         for(FixAnswerDictEnum answerDictEnum : values()){
             if((name+answerDictEnum.getReceived()).equals(received)){
                 return answerDictEnum.answer;
