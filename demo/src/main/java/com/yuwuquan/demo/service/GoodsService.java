@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface GoodsService {
     int updateGoodsInventory(Integer num);//扣减库存
+    int mockTranscationException(Integer num);//扣减库存
 }

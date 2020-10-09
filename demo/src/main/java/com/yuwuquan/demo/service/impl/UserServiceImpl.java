@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
         userMapper.insertOne();
     }
 
-    @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     @Override
     public void mockTranscationException(int a){
             userMapper.insertOne();
