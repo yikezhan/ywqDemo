@@ -31,8 +31,17 @@ public class AI {
         if(!check(received)){
             return new AIAnswer(true,"未通过校验");
         }
-        String context = getFixAnswer(received);
+        String context = getFixAnswer(received);//固定回答
 
+        if(StringUtil.isBlank(context)){
+            // TODO: 2020/10/9 数据库查询回答
+        }
+        if(StringUtil.isBlank(context)){
+            // TODO: 2020/10/9 上下文处理回答
+        }
+        if(StringUtil.isBlank(context)){
+            // TODO: 2020/10/9 其他处理方式
+        }
         if(StringUtil.isBlank(context)){
             return new AIAnswer(true,"回答为空");
         }
