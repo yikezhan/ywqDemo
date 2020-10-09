@@ -7,22 +7,18 @@ import com.yuwuquan.demo.exception.ApplicationException;
 import com.yuwuquan.demo.orm.model.SysUserInfo;
 import com.yuwuquan.demo.service.UserService;
 import com.yuwuquan.demo.session.JwtTokenUtil;
-import com.yuwuquan.demo.session.SysContent;
 import com.yuwuquan.demo.sysenum.CodeEnum;
 import com.yuwuquan.demo.util.RedisUtil;
 import com.yuwuquan.demo.util.common.StringUtil;
 import com.yuwuquan.demo.util.encryption.PwdUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.swing.*;
 import java.util.Random;
 
 @Api(tags="用户信息相关")

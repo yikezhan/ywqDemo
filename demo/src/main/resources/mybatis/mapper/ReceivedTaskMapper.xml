@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuwuquan.demo.orm.dao.ReceivedTaskMapper">
+    <insert id="insertTask" parameterType="com.yuwuquan.demo.orm.model.ReceivedTask">
+       INSERT INTO `bingo_common`.`received_task` (
+        `fk_sys_task`,`fk_publish_task`,`fk_sys_user`,`answer`,`commit_status`,`answer_status`,
+        `createtime`,`modifytime`,`fk_user_create`,`fk_user_modify`,`isvalid`
+        )
+        VALUES
+        (
+            #{fk_sys_task}, #{fk_publish_task},#{fk_sys_user},#{answer},#{commitStatus},#{answerStatus},
+            NOW(),NOW(),-1,-1,1
+        );
+    </insert>
+    <update id="updateBySelect" parameterType="com.yuwuquan.demo.orm.model.ReceivedTask">
+       UPDATE `bingo_common`.`received_task`
+       SET
+        id = #{id},
+        <if test="answer != null">
+            answer = #{answer},
+        </if>
+        <if test="commit_status != null">
+            commit_status = #{commitStatus},
+        </if>
+        <if test="answer_status != null">
+            answer_status = #{answerStatus},
+        </if>
+        modifytime = now()
+    </update>
+    <select id="queryTask" parameterType="com.yuwuquan.demo.orm.model.ReceivedTask" resultType="com.yuwuquan.demo.orm.model.ReceivedTask">
+        select
+            `id`,
+            `fk_sys_task`,
+            `fk_publish_task`,
+            `fk_sys_user`,
+            `answer`,
+            `commit_status`,
+            `answer_status`,
+            `createtime`,
+            `modifytime`,
+            `fk_user_create`,
+            `fk_user_modify`,
+            `isvalid`
+        FROM `bingo_common`.`received_task`
+        WHERE
+        <if test="fk_sys_user != null">
+            AND fk_sys_user = #{fk_sys_user}
+        </if>
+        <if test="id != null">
+            AND id = #{id}
+        </if>
+    </select>
+</mapper>

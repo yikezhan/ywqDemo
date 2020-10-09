@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuwuquan.demo.orm.dao.PublishTaskMapper">
+    <insert id="insertTask" parameterType="com.yuwuquan.demo.orm.model.PublishTask">
+       INSERT INTO `bingo_common`.`publish_task` (
+        `fk_sys_task`,`fk_sys_user`,`title`,`question`,`answer`,
+        `remain_time`,  `need_amount`,`finish_amount`, `total_price`,`task_status`,
+        `createtime`,`modifytime`,`fk_user_create`,`fk_user_modify`,`isvalid`
+        )
+        VALUES
+        (
+            #{fk_sys_task}, #{fk_sys_user},#{title},#{question},#{answer},
+            #{remainTime}, #{needAmount},#{finishAmount},#{totalPrice},2,
+            NOW(),NOW(),-1,-1,1
+        );
+    </insert>
+    <select id="queryTask" parameterType="com.yuwuquan.demo.orm.model.PublishTask" resultType="com.yuwuquan.demo.orm.model.PublishTask">
+        SELECT
+            `id`,
+            `fk_sys_task`,
+            `fk_sys_user`,
+            `title`,
+            `question`,
+            `answer`,
+            `remain_time`,
+            `need_amount`,
+            `finish_amount`,
+            `total_price`,
+            `task_status`,
+            `createtime`,
+            `modifytime`,
+            `fk_user_create`,
+            `fk_user_modify`,
+            `isvalid`
+        FROM `bingo_common`.`publish_task`
+        WHERE
+        isvalid = 1
+        <if test="fk_sys_user != null">
+            AND fk_sys_user = #{fk_sys_user}
+        </if>
+        <if test="id != null">
+            AND id = #{id}
+        </if>
+    </select>
+</mapper>

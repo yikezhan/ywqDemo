@@ -50,7 +50,7 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
     @Autowired
     UserService userService;
     /**
-     * token+redis方式验证。取出token中的phone，查看redis中该用户对应的建是否存在。
+     * token+redis方式验证。取出token中的phone，查看redis中该用户对应的键是否存在。
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

@@ -1,5 +1,6 @@
 package com.yuwuquan.demo.orm.model;
 
+import com.yuwuquan.demo.sysenum.PublishTaskEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -7,6 +8,9 @@ import lombok.Data;
 import java.io.Serializable;
 import java.sql.Date;
 
+/**
+ * 任务一经发布，不可再变。未完成部分的金额会在超过过期时间后自动退回。
+ */
 @Data
 @ApiModel
 public class PublishTask extends BaseTable implements Serializable {
@@ -25,30 +29,36 @@ public class PublishTask extends BaseTable implements Serializable {
     String answer;
     @ApiModelProperty(value = "任务过期时间", example = "2020-11-11", dataType = "Date")
     Date remainTime;
-    @ApiModelProperty(value = "确认方式，0手动确认，1自动确认", example = "0", dataType = "Integer")
-    Integer confirmType;
     @ApiModelProperty(value = "需要的人数。初始化后即不可再变", example = "10", dataType = "Integer")
     Integer needAmount;
-    @ApiModelProperty(value = "等待发布(入队)的人数。初始化时=need_amount,每回归一个未完成的，则值+1", example = "10", dataType = "Integer")
-    Integer waitAmount;
-    @ApiModelProperty(value = "需要的用户类型，0普通用户，1高质量用户", example = "0", dataType = "Integer")
-    Integer needUserType;
-    @ApiModelProperty(value = "支付状态，已付款才可入队列。0未支付，1已支付", example = "0", dataType = "Integer")
-    Integer paymentStatus;
-    @ApiModelProperty(value = "发布状态，已发布才可入队列。0未发布，1已发布", example = "0", dataType = "Integer")
-    Integer publishStatus;
-    @ApiModelProperty(value = "审核状态,已审核才可入队列。0未审核，1已审核通过，2审核不通过", example = "0", dataType = "Integer")
-    Integer reviewStatus;
-    @ApiModelProperty(value = "总金额，\"分\"为单位", example = "0", dataType = "Integer")
-    Integer totalPrice;
-    @ApiModelProperty(value = "任务被拒绝的次数", example = "0", dataType = "Integer")
-    Integer refuseAmount;
-    @ApiModelProperty(value = "已分发出去的任务次数", example = "0", dataType = "Integer")
-    Integer allocationAmount;
     @ApiModelProperty(value = "已完成的任务次数", example = "0", dataType = "Integer")
     Integer finishAmount;
-    @ApiModelProperty(value = "入队次数", example = "0", dataType = "Integer")
-    Integer sendTimes;
-    @ApiModelProperty(value = "最近一次发送时间", example = "2020-12-12", dataType = "Date")
-    Integer lastSendTime;
+    @ApiModelProperty(value = "任务状态。包含支付状态，审核状态，发布状态等.14=8+4+2", example = "12", dataType = "Integer")
+    Integer taskStatus;
+    @ApiModelProperty(value = "总金额，\"分\"为单位", example = "0", dataType = "Integer")
+    Integer totalPrice;
+    public boolean checkAduitStatus(){
+        if(taskStatus == null) return false;
+        if((taskStatus.intValue() & PublishTaskEnum.AduitPass.getCode()) == 0){
+            return false;
+        }else{
+            return true;
+        }
+    }
+    public boolean checkPaymentStatus(){
+        if(taskStatus == null) return false;
+        if((taskStatus.intValue() & PublishTaskEnum.PaymentSuccess.getCode()) == 0){
+            return false;
+        }else{
+            return true;
+        }
+    }
+    public boolean checkPublishStatus(){
+        if(taskStatus == null) return false;
+        if((taskStatus.intValue() & PublishTaskEnum.PublishSuccess.getCode()) == 0){
+            return false;
+        }else{
+            return true;
+        }
+    }
 }
