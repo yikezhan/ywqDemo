@@ -9,7 +9,7 @@
         AND `sku` = #{sku}
         AND total_num > use_num;
     </update>
-    <insert id="insertSecKillSuccessUser" parameterType="com.yuwuquan.demo.seckillsys.dto.SecKillGoodsDTO">
+    <insert id="insertSecKillSuccessUser" parameterType="com.yuwuquan.demo.hatch_seckillsys.dto.SecKillGoodsDTO">
         INSERT INTO `bingo_common`.`seckillsuccessrecord` (
             `sku`,
             `fk_user`,

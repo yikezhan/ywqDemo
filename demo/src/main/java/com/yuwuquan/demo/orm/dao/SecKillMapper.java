@@ -1,7 +1,7 @@
 package com.yuwuquan.demo.orm.dao;
 
 
-import com.yuwuquan.demo.seckillsys.dto.SecKillGoodsDTO;
+import com.yuwuquan.demo.hatch_seckillsys.dto.SecKillGoodsDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 

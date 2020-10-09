@@ -1,4 +1,4 @@
-package com.yuwuquan.demo.controller.aichatmessage.answerdict;
+package com.yuwuquan.demo.hatch_aichatmessage.answerdict;
 
 public enum FixAnswerDictEnum {
     Default ("","叽叽哇哇说些什么鸟语，听不懂，再见！"),

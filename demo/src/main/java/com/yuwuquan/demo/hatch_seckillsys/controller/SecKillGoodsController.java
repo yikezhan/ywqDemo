@@ -1,14 +1,14 @@
-package com.yuwuquan.demo.seckillsys.controller;
+package com.yuwuquan.demo.hatch_seckillsys.controller;
 
 import com.yuwuquan.demo.activemq.message.MessageCreateUtil;
 import com.yuwuquan.demo.activemq.message.template.MessageDetail;
 import com.yuwuquan.demo.activemq.send.SendMessage;
 import com.yuwuquan.demo.common.ResponseDTO;
 import com.yuwuquan.demo.exception.ApplicationException;
-import com.yuwuquan.demo.seckillsys.SecKillEnum;
-import com.yuwuquan.demo.seckillsys.SecKillStatusEnum;
-import com.yuwuquan.demo.seckillsys.dto.SecKillGoodsDTO;
-import com.yuwuquan.demo.seckillsys.job.SetRedisKeyJobHandler;
+import com.yuwuquan.demo.hatch_seckillsys.SecKillEnum;
+import com.yuwuquan.demo.hatch_seckillsys.SecKillStatusEnum;
+import com.yuwuquan.demo.hatch_seckillsys.dto.SecKillGoodsDTO;
+import com.yuwuquan.demo.hatch_seckillsys.job.SetRedisKeyJobHandler;
 import com.yuwuquan.demo.util.RedisUtil;
 import com.yuwuquan.demo.util.common.StringUtil;
 import io.swagger.annotations.Api;

@@ -1,8 +1,8 @@
-package com.yuwuquan.demo.seckillsys.service;
+package com.yuwuquan.demo.hatch_seckillsys.service;
 
 import com.yuwuquan.demo.config.DozerConfig;
 import com.yuwuquan.demo.orm.dao.SecKillMapper;
-import com.yuwuquan.demo.seckillsys.dto.SecKillGoodsDTO;
+import com.yuwuquan.demo.hatch_seckillsys.dto.SecKillGoodsDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

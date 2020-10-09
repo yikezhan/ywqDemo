@@ -1,17 +1,14 @@
-package com.yuwuquan.demo.seckillsys.mq;
+package com.yuwuquan.demo.hatch_seckillsys.mq;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.yuwuquan.demo.activemq.constant.QueueType;
 import com.yuwuquan.demo.activemq.message.template.MessageDetail;
-import com.yuwuquan.demo.activemq.process.impl.ModifyMessageProcess;
-import com.yuwuquan.demo.activemq.process.impl.QueryMessageProcess;
 import com.yuwuquan.demo.activemq.receive.ReceiveMessage;
-import com.yuwuquan.demo.exception.ApplicationException;
-import com.yuwuquan.demo.seckillsys.SecKillEnum;
-import com.yuwuquan.demo.seckillsys.SecKillStatusEnum;
-import com.yuwuquan.demo.seckillsys.dto.SecKillGoodsDTO;
-import com.yuwuquan.demo.seckillsys.service.SecKillService;
+import com.yuwuquan.demo.hatch_seckillsys.SecKillEnum;
+import com.yuwuquan.demo.hatch_seckillsys.SecKillStatusEnum;
+import com.yuwuquan.demo.hatch_seckillsys.dto.SecKillGoodsDTO;
+import com.yuwuquan.demo.hatch_seckillsys.service.SecKillService;
 import com.yuwuquan.demo.util.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;

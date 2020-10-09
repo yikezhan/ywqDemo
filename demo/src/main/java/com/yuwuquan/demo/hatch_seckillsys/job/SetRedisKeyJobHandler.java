@@ -1,18 +1,16 @@
-package com.yuwuquan.demo.seckillsys.job;
+package com.yuwuquan.demo.hatch_seckillsys.job;
 
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.handler.IJobHandler;
 import com.xxl.job.core.handler.annotation.JobHandler;
 import com.xxl.job.core.log.XxlJobLogger;
-import com.yuwuquan.demo.seckillsys.SecKillEnum;
+import com.yuwuquan.demo.hatch_seckillsys.SecKillEnum;
 import com.yuwuquan.demo.util.RedisUtil;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 
 /**

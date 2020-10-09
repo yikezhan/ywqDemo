@@ -1,4 +1,4 @@
-package com.yuwuquan.demo.seckillsys;
+package com.yuwuquan.demo.hatch_seckillsys;
 
 import com.yuwuquan.demo.util.common.DateUtil;
 import lombok.Getter;

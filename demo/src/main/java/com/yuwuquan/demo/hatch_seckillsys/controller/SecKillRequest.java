@@ -1,6 +1,6 @@
-package com.yuwuquan.demo.seckillsys.controller;
+package com.yuwuquan.demo.hatch_seckillsys.controller;
 
-import com.yuwuquan.demo.seckillsys.dto.SecKillGoodsDTO;
+import com.yuwuquan.demo.hatch_seckillsys.dto.SecKillGoodsDTO;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 

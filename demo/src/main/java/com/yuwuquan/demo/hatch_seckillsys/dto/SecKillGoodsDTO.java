@@ -1,4 +1,4 @@
-package com.yuwuquan.demo.seckillsys.dto;
+package com.yuwuquan.demo.hatch_seckillsys.dto;
 
 import io.swagger.annotations.ApiModel;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.yuwuquan.demo.seckillsys;
+package com.yuwuquan.demo.hatch_seckillsys;
 
 import lombok.Getter;
 

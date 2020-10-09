@@ -1,6 +1,6 @@
-package com.yuwuquan.demo.seckillsys.service;
+package com.yuwuquan.demo.hatch_seckillsys.service;
 
-import com.yuwuquan.demo.seckillsys.dto.SecKillGoodsDTO;
+import com.yuwuquan.demo.hatch_seckillsys.dto.SecKillGoodsDTO;
 
 public interface SecKillService {
     boolean inventoryDeduction(String sku);//扣库存

@@ -3,10 +3,10 @@
 //1、有擅长领域，有知有不知，不是全能
 //2、有情绪，有性格
 //3、懂聆听，理解讲的故事，能判断事情性质，理解上下文语义。
-package com.yuwuquan.demo.controller.aichatmessage;
+package com.yuwuquan.demo.hatch_aichatmessage;
 
 import com.alibaba.fastjson.JSON;
-import com.yuwuquan.demo.controller.aichatmessage.answerdict.FixAnswerDictEnum;
+import com.yuwuquan.demo.hatch_aichatmessage.answerdict.FixAnswerDictEnum;
 import com.yuwuquan.demo.util.common.StringUtil;
 import lombok.Data;
 

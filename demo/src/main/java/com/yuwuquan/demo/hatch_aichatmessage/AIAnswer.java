@@ -1,4 +1,4 @@
-package com.yuwuquan.demo.controller.aichatmessage;
+package com.yuwuquan.demo.hatch_aichatmessage;
 
 import lombok.Data;
 
