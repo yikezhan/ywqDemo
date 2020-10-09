@@ -42,4 +42,14 @@
             AND id = #{id}
         </if>
     </select>
+    <update id="updateTask" parameterType="com.yuwuquan.demo.orm.model.PublishTask">
+        UPDATE
+            `bingo_common`.`publish_task`
+        SET
+        <if test="taskStatus != null">
+            task_status = #{taskStatus},
+        </if>
+        modifytime = NOW()
+        WHERE id=#{id}
+    </update>
 </mapper>

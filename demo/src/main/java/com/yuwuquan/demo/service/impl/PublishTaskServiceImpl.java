@@ -8,6 +8,7 @@ import com.yuwuquan.demo.orm.dao.PublishTaskMapper;
 import com.yuwuquan.demo.orm.model.PublishTask;
 import com.yuwuquan.demo.service.PublishTaskService;
 import com.yuwuquan.demo.session.SysContent;
+import com.yuwuquan.demo.sysenum.PublishTaskEnum;
 import com.yuwuquan.demo.util.common.DateUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
@@ -56,23 +57,26 @@ public class PublishTaskServiceImpl implements PublishTaskService {
         return publishTaskPage.getResult();
     }
 
-    private PublishTask publishTaskCheck(Long id) {
+    private void publishTaskCheck(Long id) {
         if(id == null) throw new ApplicationException("发布任务id为空", -1);
     }
     @Override
-    public List<PublishTask> publishTask(Long id) {
+    public void publishTask(Long id) throws Exception{
         publishTaskCheck(id);
         PublishTask publishTask = new PublishTask();
         publishTask.setFk_sys_user(SysContent.getCurrentOperator().getId());
         publishTask.setId(id);
         List<PublishTask> publishTasks = publishTaskMapper.queryTask(publishTask);
         if(CollectionUtils.isEmpty(publishTasks)) throw new ApplicationException("发布任务不存在",-1);
+        publishTask = publishTasks.get(0);
+        if(!publishTask.checkAduitStatus()) throw new ApplicationException("尚未审核通过",-1);
+        if(!publishTask.checkPaymentStatus()) throw new ApplicationException("尚未付款",-1);
+        if(publishTask.checkPublishStatus()) throw new ApplicationException("已在发布中",-1);
 
         PublishTask tmp = new PublishTask();
-        tmp.setId(publishTasks.get(0).getId());
-        tmp.setTaskStatus(publishTasks.get(0).);
-        publishTaskMapper.updateTask(publishTasks.get(0));
-        return null;
+        tmp.setId(publishTask.getId());
+        tmp.setTaskStatus(publishTask.getTaskStatus() | PublishTaskEnum.PublishSuccess.getCode());
+        publishTaskMapper.updateTask(tmp);
     }
 
 }

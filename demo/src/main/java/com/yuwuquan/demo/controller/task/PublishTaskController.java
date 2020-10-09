@@ -51,7 +51,13 @@ public class PublishTaskController {
     @PostMapping(value = "/publishTask")
     public ResponseDTO publishTask(Long id){
         PublishTaskResponse publishTaskResponse = new PublishTaskResponse();
-        publishTaskService.publishTask(id);
+        try {
+            publishTaskService.publishTask(id);
+        } catch (ApplicationException e) {
+            return publishTaskResponse.systemFail(e);
+        } catch (Exception e){
+            return publishTaskResponse.systemFail();
+        }
         return publishTaskResponse.success("发布成功");
     }
 

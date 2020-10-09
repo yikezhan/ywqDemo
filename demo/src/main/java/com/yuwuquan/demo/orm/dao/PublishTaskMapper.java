@@ -11,4 +11,5 @@ import java.util.List;
 public interface PublishTaskMapper {
     void insertTask(PublishTask publishTask);
     List<PublishTask> queryTask(PublishTask publishTask);
+    void updateTask(PublishTask publishTask);
 }
