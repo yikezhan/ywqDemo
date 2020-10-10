@@ -143,6 +143,12 @@
             <artifactId>activemq-pool</artifactId>
             <version>5.15.0</version>
         </dependency>
+        <!--rocketmq消息队列-->
+        <dependency>
+            <groupId>com.alibaba.rocketmq</groupId>
+            <artifactId>rocketmq-client</artifactId>
+            <version>3.2.6</version>
+        </dependency>
         <!--        dubbo配置     -->
         <dependency>
             <groupId>com.alibaba.spring.boot</groupId>
