@@ -21,7 +21,7 @@ import java.util.List;
 
 @Api(tags="发布任务")
 @RestController
-@RequestMapping(value = "/publishtask")
+@RequestMapping(value = "/receivedTask")
 public class ReceivedTaskController {
     @Autowired
     ReceivedTaskService receivedTaskService;

@@ -28,7 +28,7 @@ import java.util.Random;
 
 @Api(tags="发布任务")
 @RestController
-@RequestMapping(value = "/publishtask")
+@RequestMapping(value = "/publishTask")
 public class PublishTaskController {
     @Autowired
     PublishTaskService publishTaskService;
