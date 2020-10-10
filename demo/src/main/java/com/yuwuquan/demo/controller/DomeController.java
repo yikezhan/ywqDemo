@@ -1,5 +1,11 @@
 package com.yuwuquan.demo.controller;
 
+import com.alibaba.rocketmq.client.exception.MQBrokerException;
+import com.alibaba.rocketmq.client.exception.MQClientException;
+import com.alibaba.rocketmq.client.producer.DefaultMQProducer;
+import com.alibaba.rocketmq.client.producer.SendResult;
+import com.alibaba.rocketmq.common.message.Message;
+import com.alibaba.rocketmq.remoting.exception.RemotingException;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
@@ -82,6 +88,9 @@ public class DomeController{
     private ElasticsearchRepositoryInter elasticsearchRepositoryInter;
     @Autowired
     private ElasticsearchTemplate elasticsearchTemplate;
+    /**使用RocketMq的生产者*/
+    @Autowired
+    private DefaultMQProducer defaultMQProducer;
 
     //策略模式生成订单
     @Autowired
@@ -98,6 +107,23 @@ public class DomeController{
     public String print(@RequestParam(value = "name",defaultValue = "Anonym",required = false) String name){
         logger.info(name + " Come on");
         return "Hi! " + name.toUpperCase() + ", Welcome to my world!";
+    }
+
+
+    /**
+     * 测试rocketmq发送消息
+     * @param msg
+     * @return
+     */
+    @ApiOperation(value = "测试rocketmq发送消息")
+    @GetMapping(value = "/rocketMqSendMsg")
+    public String rocketMqSendMsg(String msg) throws InterruptedException, RemotingException, MQClientException, MQBrokerException {
+        logger.info("开始发送消息："+msg);
+        Message sendMsg = new Message("demoTopic","demoTag",msg.getBytes());
+        //默认3秒超时
+        SendResult sendResult = defaultMQProducer.send(sendMsg);
+        logger.info("消息发送响应信息："+sendResult.toString());
+        return "success";
     }
     /**
      * 集成mybatis+mysql
