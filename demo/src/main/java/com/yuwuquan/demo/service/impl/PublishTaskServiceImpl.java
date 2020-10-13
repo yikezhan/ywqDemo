@@ -29,10 +29,6 @@ public class PublishTaskServiceImpl implements PublishTaskService {
     @Autowired
     private  PublishTaskMapper publishTaskMapper;
 
-    /**使用RocketMq的生产者*/
-    @Autowired
-    private DefaultMQProducer defaultMQProducer;
-
     private void createTaskCheck(PublishTask publishTask) {
         if(publishTask.getRemainTime() == null || publishTask.getRemainTime().before(DateUtil.addDay(new Date(),1)))
             throw new ApplicationException("任务过期时间至少为1天" , -1);
@@ -89,14 +85,6 @@ public class PublishTaskServiceImpl implements PublishTaskService {
         tmp.setId(publishTask.getId());
         tmp.setTaskStatus(publishTask.getTaskStatus() | PublishTaskEnum.PublishSuccess.getCode());
         publishTaskMapper.updateTask(tmp);
-
-        //发布到mq中
-        String msg = "demo msg test by ywq";
-        logger.info("开始发送消息："+msg);
-        Message sendMsg = new Message("demoTopic","demoTag",msg.getBytes());
-        //默认3秒超时
-        SendResult sendResult = defaultMQProducer.send(sendMsg);
-        logger.info("消息发送响应信息："+sendResult.toString());
     }
 
 }
