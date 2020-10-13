@@ -1,16 +1,14 @@
 package com.yuwuquan.demo.controller.task;
 
 import com.yuwuquan.demo.common.ResponseDTO;
-import com.yuwuquan.demo.controller.request.PublishTaskRequest;
 import com.yuwuquan.demo.controller.request.ReceivedTaskRequest;
 import com.yuwuquan.demo.controller.resonse.PublishTaskResponse;
-import com.yuwuquan.demo.exception.ApplicationException;
-import com.yuwuquan.demo.orm.model.PublishTask;
 import com.yuwuquan.demo.orm.model.ReceivedTask;
-import com.yuwuquan.demo.service.PublishTaskService;
+import com.yuwuquan.demo.rocketmq.consumer.MsgPullProcessor;
 import com.yuwuquan.demo.service.ReceivedTaskService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.rocketmq.common.message.MessageExt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,9 +23,13 @@ import java.util.List;
 public class ReceivedTaskController {
     @Autowired
     ReceivedTaskService receivedTaskService;
+    @Autowired
+    MsgPullProcessor msgPullProcessor;
 
     private ReceivedTask pullTask() {
-        // TODO: 2020/10/9 队列中拉取任务，并做过滤。不合适的消息需要重新入队 
+        // TODO: 2020/10/9 队列中拉取任务，并做过滤。不合适的消息需要重新入队
+        List<MessageExt> messageExts = msgPullProcessor.pullMsg();
+
         return new ReceivedTask();
     }
 
@@ -39,7 +41,7 @@ public class ReceivedTaskController {
             ReceivedTask receivedTask = pullTask();
             receivedTaskService.receivedTask(receivedTask);
         } catch (Exception e){
-            return publishTaskResponse.systemFail();
+            return publishTaskResponse.systemFail(e);
         }
         return publishTaskResponse.success();
     }
@@ -53,7 +55,7 @@ public class ReceivedTaskController {
         try {
             result = receivedTaskService.commitAnswer(id, answer, isGiveUp);
         } catch (Exception e){
-            return publishTaskResponse.systemFail();
+            return publishTaskResponse.systemFail(e);
         }
         if(result){
             return publishTaskResponse.success("正确，获得赏金");

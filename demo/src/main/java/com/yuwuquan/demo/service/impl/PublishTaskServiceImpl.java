@@ -6,11 +6,15 @@ import com.yuwuquan.demo.common.PaginationDTO;
 import com.yuwuquan.demo.exception.ApplicationException;
 import com.yuwuquan.demo.orm.dao.PublishTaskMapper;
 import com.yuwuquan.demo.orm.model.PublishTask;
+import com.yuwuquan.demo.orm.model.SysUserInfo;
 import com.yuwuquan.demo.service.PublishTaskService;
 import com.yuwuquan.demo.session.SysContent;
 import com.yuwuquan.demo.sysenum.PublishTaskEnum;
 import com.yuwuquan.demo.util.common.DateUtil;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.rocketmq.client.producer.DefaultMQProducer;
+import org.apache.rocketmq.client.producer.SendResult;
+import org.apache.rocketmq.common.message.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +28,10 @@ public class PublishTaskServiceImpl implements PublishTaskService {
     private static final Logger logger = LoggerFactory.getLogger(PublishTaskServiceImpl.class);
     @Autowired
     private  PublishTaskMapper publishTaskMapper;
+
+    /**使用RocketMq的生产者*/
+    @Autowired
+    private DefaultMQProducer defaultMQProducer;
 
     private void createTaskCheck(PublishTask publishTask) {
         if(publishTask.getRemainTime() == null || publishTask.getRemainTime().before(DateUtil.addDay(new Date(),1)))
@@ -62,6 +70,10 @@ public class PublishTaskServiceImpl implements PublishTaskService {
     }
     @Override
     public void publishTask(Long id) throws Exception{
+        SysUserInfo s = new SysUserInfo("123");
+        s.setId(1l);
+        SysContent.setOperator(s);
+
         publishTaskCheck(id);
         PublishTask publishTask = new PublishTask();
         publishTask.setFk_sys_user(SysContent.getCurrentOperator().getId());
@@ -77,6 +89,14 @@ public class PublishTaskServiceImpl implements PublishTaskService {
         tmp.setId(publishTask.getId());
         tmp.setTaskStatus(publishTask.getTaskStatus() | PublishTaskEnum.PublishSuccess.getCode());
         publishTaskMapper.updateTask(tmp);
+
+        //发布到mq中
+        String msg = "demo msg test by ywq";
+        logger.info("开始发送消息："+msg);
+        Message sendMsg = new Message("demoTopic","demoTag",msg.getBytes());
+        //默认3秒超时
+        SendResult sendResult = defaultMQProducer.send(sendMsg);
+        logger.info("消息发送响应信息："+sendResult.toString());
     }
 
 }

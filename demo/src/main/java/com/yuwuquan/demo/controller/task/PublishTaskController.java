@@ -52,11 +52,12 @@ public class PublishTaskController {
     public ResponseDTO publishTask(Long id){
         PublishTaskResponse publishTaskResponse = new PublishTaskResponse();
         try {
+
             publishTaskService.publishTask(id);
         } catch (ApplicationException e) {
             return publishTaskResponse.systemFail(e);
         } catch (Exception e){
-            return publishTaskResponse.systemFail();
+            return publishTaskResponse.systemFail(e);
         }
         return publishTaskResponse.success("发布成功");
     }

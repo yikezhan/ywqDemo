@@ -40,6 +40,10 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
         filterList.add("/seckill/setRedisKeyJobHandler");
         filterList.add("/AI/chatAnswer");
 
+        filterList.add("/publishTask/createTask");
+        filterList.add("/publishTask/publishTask");
+        filterList.add("/receivedTask/receivedTask");
+
 
     }
     private static final String tokenHeader = "tokenHeader";

@@ -146,9 +146,14 @@
         </dependency>
         <!--rocketmq消息队列-->
         <dependency>
-            <groupId>com.alibaba.rocketmq</groupId>
+            <groupId>org.apache.rocketmq</groupId>
             <artifactId>rocketmq-client</artifactId>
-            <version>3.2.6</version>
+            <version>4.5.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.rocketmq</groupId>
+            <artifactId>rocketmq-common</artifactId>
+            <version>4.5.1</version>
         </dependency>
         <!--        dubbo配置     -->
         <dependency>
