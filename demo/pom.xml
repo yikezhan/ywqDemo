@@ -231,6 +231,12 @@
             <artifactId>goeasy-sdk</artifactId>
             <version>0.3.14</version>
         </dependency>
+        <!--集成jsoup,解析html文件 -->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.12.1</version>
+        </dependency>
 
     </dependencies>
 

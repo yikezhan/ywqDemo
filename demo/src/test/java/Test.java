@@ -1,6 +1,9 @@
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.yuwuquan.demo.util.common.DateUtil;
 import lombok.Data;
+
+import java.util.Date;
 
 @Data
 class A{
@@ -20,8 +23,7 @@ class B {
 }
 public class Test{
     public static void main(String[] args) {
-        A a = new A("ywq",12);
-        B b = JSONObject.parseObject(JSON.toJSONString(a), B.class);
-        System.out.println(b.toString());
+        Date date = new Date();
+        System.out.println(JSONObject.toJSONString(date));
     }
 }
