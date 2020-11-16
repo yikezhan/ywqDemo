@@ -7,6 +7,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.*;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -16,42 +17,84 @@ import java.util.List;
 //<ul><li><a href="https://m.k886.net/look/name/拳愿奧米迦/cid/38657/id/498632" title="拳愿奧米迦083集">083集<i class="new-icon"></i></a></li><li><a href="https://m.k886.net/look/name/拳愿奧米迦/cid/38657/id/497589" title="拳愿奧米迦082集">082集
 public class ImgWebSpider {
     public static void main(String[] args) {
-        List<String> urls = new ArrayList<>();
         try {
-            String url="https://m.k886.net/comic/name/%E6%8B%B3%E6%84%BF%E5%A5%A7%E7%B1%B3%E8%BF%A6/id/38657";
-            Document document = Jsoup.parse(new URL(url).openStream(), "UTF-8", url);
+
+            String url="https://m.k886.net/comic/name/%E6%95%99%E6%8E%88%E4%BD%A0%E9%82%84%E7%AD%89%E4%BB%80%E9%BA%BC/id/47155";
+            Document document = getDocument(url);
             Elements elements = document.getElementsByClass("chapter-list").first().select("a");
-            for(Element element : elements){
-                String url2 = element.attr("href");
-                String dirName = element.attr("title");//章节文件夹名字
-                Document document2 = Jsoup.parse(new URL(url2).openStream(), "UTF-8", url2);
-                Elements elements2 = document.select("img");
-                for(int i=0;i<elements2.size();i++){
-                    if(StringUtil.isNotBlank(elements2.get(i).attr("alt"))){
-                        String src = elements2.get(i).attr("src");
-                        if(src.contains("jpg")){
-                            System.out.println(src);
-                            (new ImgWebSpider()).download(src,".jpg","d:\\image\\"+dirName+"\\",i+"图片");
-                        }
+            int start = 0;//开始章节(0开始)
+            int end = 20;//结束章节
+            for(int index =0; index < elements.size() && index<=end;index++){//遍历每一章节
+                if(index < start) continue;
+                Element element = elements.get(index);
+                //章节名
+                String dirName = element.attr("title")
+                        .replaceAll(" ","")
+                        .replaceAll("-","")
+                        .replaceAll("，","")
+                        .replaceAll("\\?","")
+                        .replaceAll("\\.","")
+                        .replaceAll("…","");
+                //当前页面url
+                String pageUrl = element.attr("href");
+                int pageNum = 0;
+                while(pageUrl.contains("https")){
+                    pageNum++;
+                    Document pageDocument = getDocument(pageUrl);
+                    if(pageDocument == null) break;
+                    Elements imgElement = pageDocument.select("img");
+                    downloadPageImage(dirName, imgElement, pageNum);
+                    try{
+                        pageUrl = pageDocument.getElementsByClass("action-list").select("a").get(2).attr("href");
+                    } catch (Exception e){
+                        System.out.println("该页面出错，pageUrl=" + pageUrl);
+                        e.printStackTrace();
+                        break;
                     }
+
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    private static Document getDocument(String url){
+        Document document = null;
+        boolean res = true;
+        int retryTime = 0;
+        while (res  &&  retryTime<3){
+            try {
+                document = Jsoup.parse(new URL(url).openStream(), "UTF-8", url);
+                res = false;
+            } catch (Exception e) {
+                System.out.println("重试" + (++retryTime) + "次" + url);
+            }
+        }
+        return document;
+    }
+
+    private static void downloadPageImage(String dirName, Elements imgElement, int pageNum){
+        for(int imagNum=0; imagNum<imgElement.size(); imagNum++){
+            if(StringUtil.isNotBlank(imgElement.get(imagNum).attr("alt"))){
+                String src = imgElement.get(imagNum).attr("src");
+                if(src.contains("jpg")){
+                    System.out.println(src);
+                    try {
+                        (new ImgWebSpider()).download(src,"jpg","d:\\image\\"+dirName+"\\",pageNum+"_"+imagNum+"");
+                    } catch (Exception e) {//当前页面图片下载失败，略过
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+    }
+
     private List<String> getUrls(){
         List<String> urls = new ArrayList<>();
         String url = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1605270562690&di=926a3de2930d206536c9f4ee81b1b69c&imgtype=0&src=http%3A%2F%2Fa4.att.hudong.com%2F22%2F59%2F19300001325156131228593878903.jpg";
         urls.add(url);
         return urls;
-    }
-    public void pull() throws Exception {
-        List<String> urls = getUrls();
-        for(int i=0;i<urls.size();i++){
-            String extensionName = urls.get(i).substring(urls.get(i).lastIndexOf(".") +     1);
-            download(urls.get(i),extensionName,"d:\\image\\",i+"图片");
-        }
     }
     private void download(String urlString, String extensionName,String savePath,String newFileName) throws Exception {
         // 构造URL
