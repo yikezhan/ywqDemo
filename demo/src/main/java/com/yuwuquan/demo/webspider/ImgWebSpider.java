@@ -18,8 +18,10 @@ import java.util.List;
 public class ImgWebSpider {
     public static void main(String[] args) {
         try {
-
-            String url="https://m.k886.net/comic/name/%E6%95%99%E6%8E%88%E4%BD%A0%E9%82%84%E7%AD%89%E4%BB%80%E9%BA%BC/id/47155";
+            /**
+             * 1、根网址，解析章节信息
+             */
+            String url="https://m.k886.net/comic/name/%E5%82%AC%E7%9C%A0%E5%B8%AB/id/36037";
             Document document = getDocument(url);
             Elements elements = document.getElementsByClass("chapter-list").first().select("a");
             int start = 0;//开始章节(0开始)
@@ -35,11 +37,16 @@ public class ImgWebSpider {
                         .replaceAll("\\?","")
                         .replaceAll("\\.","")
                         .replaceAll("…","");
-                //当前页面url
+                /**
+                 * 2、具体章节面，循环遍历页码信息
+                 */
                 String pageUrl = element.attr("href");
                 int pageNum = 0;
                 while(pageUrl.contains("https")){
                     pageNum++;
+                    /**
+                     * 3、解析具体页码内的信息
+                     */
                     Document pageDocument = getDocument(pageUrl);
                     if(pageDocument == null) break;
                     Elements imgElement = pageDocument.select("img");
@@ -51,7 +58,6 @@ public class ImgWebSpider {
                         e.printStackTrace();
                         break;
                     }
-
                 }
             }
         } catch (Exception e) {
@@ -59,7 +65,7 @@ public class ImgWebSpider {
         }
     }
 
-    private static Document getDocument(String url){
+    private static Document getDocument(String url){//获取页面
         Document document = null;
         boolean res = true;
         int retryTime = 0;
@@ -90,12 +96,6 @@ public class ImgWebSpider {
         }
     }
 
-    private List<String> getUrls(){
-        List<String> urls = new ArrayList<>();
-        String url = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1605270562690&di=926a3de2930d206536c9f4ee81b1b69c&imgtype=0&src=http%3A%2F%2Fa4.att.hudong.com%2F22%2F59%2F19300001325156131228593878903.jpg";
-        urls.add(url);
-        return urls;
-    }
     private void download(String urlString, String extensionName,String savePath,String newFileName) throws Exception {
         // 构造URL
         URL url = new URL(urlString);
