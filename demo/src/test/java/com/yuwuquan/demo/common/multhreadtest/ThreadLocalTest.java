@@ -14,11 +14,12 @@ import java.util.concurrent.Executors;
  *
  */
 public class ThreadLocalTest {
-    private ThreadLocal<Integer> integerThreadLocal = new ThreadLocal<Integer>();
     private class MyRun implements Runnable{
+        private ThreadLocal<Integer> integerThreadLocal = new ThreadLocal<Integer>();
         private int val=0;
         @Override
         public void run() {//注意比较i和integerThreadLocal打印值的区别
+            System.out.println(Thread.currentThread());
             System.out.println(val);
             System.out.println(integerThreadLocal.get());
             integerThreadLocal.set(3);
@@ -31,7 +32,7 @@ public class ThreadLocalTest {
         System.out.println("-------------------");
         t.test2();//0     null    0       null
         System.out.println("-------------------");
-        t.test3();//0     null    0       null
+        t.test3();//0     null    1       null
 
     }
     private void test1() throws InterruptedException {
