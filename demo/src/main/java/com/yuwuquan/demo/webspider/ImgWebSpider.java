@@ -6,10 +6,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
+import java.net.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +20,7 @@ public class ImgWebSpider {
             /**
              * 1、根网址，解析章节信息
              */
-            String url="https://m.k886.net/comic/name/%E5%82%AC%E7%9C%A0%E5%B8%AB/id/36037";
+            String url="https://m.k886.net/comic/name/%E6%95%99%E6%8E%88%E4%BD%A0%E9%82%84%E7%AD%89%E4%BB%80%E9%BA%BC/id/47155";
             Document document = getDocument(url);
             Elements elements = document.getElementsByClass("chapter-list").first().select("a");
             int start = 0;//开始章节(0开始)
@@ -71,13 +70,40 @@ public class ImgWebSpider {
         int retryTime = 0;
         while (res  &&  retryTime<3){
             try {
-                document = Jsoup.parse(new URL(url).openStream(), "UTF-8", url);
+                //   url = "https://www.baidu.com";
+                setProxy();
+                URL postUrl = new URL(url);
+                URLConnection connection = postUrl.openConnection();
+                HttpsURLConnection httpsCon = (HttpsURLConnection) connection;
+                document = Jsoup.parse(connection.getInputStream(), "UTF-8", url);
                 res = false;
             } catch (Exception e) {
                 System.out.println("重试" + (++retryTime) + "次" + url);
             }
         }
         return document;
+    }
+
+    /**
+     * vpn则需要加这一段。
+     * https://www.cnblogs.com/borter/p/9617178.html  固定的代理域名配置的话
+     * https://www.cnblogs.com/littleatp/p/4729781.html  使用翻墙软件，自动使用系统的代理
+     */
+    private static void setProxy() {
+        System.setProperty("java.net.useSystemProxies", "true");//使用系统代理
+//        String proxyHost = "xxx.xxxxx.com";
+//        int proxyPort = 8080;
+//        // 设置系统变量
+//        System.setProperty("http.proxySet", "true");
+//        System.setProperty("http.proxyHost", proxyHost);
+//        System.setProperty("http.proxyPort", "" + proxyPort);
+//
+//        // 针对https也开启代理
+//        System.setProperty("https.proxyHost", proxyHost);
+//        System.setProperty("https.proxyPort", "" + proxyPort);
+        // 设置默认校验器
+//        BasicAuthenticator auth = new BasicAuthenticator(proxyUser, proxyPass);
+//        Authenticator.setDefault(auth);
     }
 
     private static void downloadPageImage(String dirName, Elements imgElement, int pageNum){
@@ -87,7 +113,7 @@ public class ImgWebSpider {
                 if(src.contains("jpg")){
                     System.out.println(src);
                     try {
-                        (new ImgWebSpider()).download(src,"jpg","d:\\image\\"+dirName+"\\",pageNum+"_"+imagNum+"");
+                        (new ImgWebSpider()).download(src,"jpg","d:\\image\\"+dirName+"\\",formateNum(pageNum)+"_"+formateNum(imagNum)+"");
                     } catch (Exception e) {//当前页面图片下载失败，略过
                         e.printStackTrace();
                     }
@@ -95,7 +121,11 @@ public class ImgWebSpider {
             }
         }
     }
-
+    private static String formateNum(int n){
+        if(n<10) return "00"+n;
+        if(n<100) return "0"+n;
+        return ""+n;
+    }
     private void download(String urlString, String extensionName,String savePath,String newFileName) throws Exception {
         // 构造URL
         URL url = new URL(urlString);
